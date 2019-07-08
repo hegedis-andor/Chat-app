@@ -4,6 +4,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SignupComponent } from '../auth/signup/signup.component';
 import { LoginComponent } from '../auth/login/login.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 const appRoots: Routes = [
   { path: 'signup', component: SignupComponent},
@@ -17,6 +19,7 @@ const appRoots: Routes = [
   ],
   imports: [
     CommonModule,
+    NgbModule,
     RouterModule.forRoot(appRoots)
   ],
   exports: [
