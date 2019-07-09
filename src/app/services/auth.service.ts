@@ -21,7 +21,6 @@ export class AuthService {
   }
 
   googleLogin() {
-    this.saveReturnUrl();
     this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 
@@ -29,9 +28,5 @@ export class AuthService {
     this.afAuth.auth.signOut();
   }
 
-  saveReturnUrl() {
-    let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
-    localStorage.setItem('returnUrl', returnUrl);
-  }
 
 }

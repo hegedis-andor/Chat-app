@@ -1,21 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule, FormsModule }   from '@angular/forms';
+
 import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { MainwindowComponent } from './mainwindow/mainwindow.component';
+import { NewroomComponent } from './newroom/newroom.component';
 
-
-const routes: Routes = [
-
-];
 
 @NgModule({
-  declarations: [ChatRoomComponent],
+  declarations: [
+    ChatRoomComponent, 
+    MainwindowComponent, NewroomComponent
+  ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
-    
+    ChatRoomComponent,
+    MainwindowComponent
   ]
 })
 export class MainModule { }
