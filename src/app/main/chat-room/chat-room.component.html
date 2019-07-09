@@ -1,9 +1,31 @@
 <div>
-    <a routerLink="/new">Add chat room</a>  
+    <a routerLink="/new">Add chat room</a>
 </div>
 
 <ul class="nav flex-column">
-    <li class="nav-item">
-        <a class="nav-link active" >room1</a>
+    <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
+
+        <div *ngIf=""></div>
+
+        <ng-template #owner>
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                {{ room.name }}
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item">Edit room</a>
+                <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
+            </div>
+        </ng-template>
+
+        <ng-template #user>
+            <a  class="nav-link">
+                {{ room.name }}
+            </a>
+        </ng-template>
+
+
+
+
     </li>
 </ul>

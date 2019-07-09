@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RoomService } from '../services/room.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'chat-room',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-room.component.scss']
 })
 export class ChatRoomComponent implements OnInit {
+  rooms$;
 
-  constructor() { }
+  constructor(
+    private roomService: RoomService,
+    public userService: UserService
+    ) { }
 
   ngOnInit() {
+    this.rooms$ = this.roomService.getRooms();
+  }
+
+  delete(roomId) {
+    this.roomService.delete(roomId);
   }
 
 }

@@ -1,7 +1,7 @@
 <div class="container">
 
 
-    <form [formGroup]="chatroomForm" (ngSubmit)="addNewRoom()">
+    <form [formGroup]="chatroomForm" (ngSubmit)="add()">
 
         <div class="form-group">
             <label for="roomName">Name of the Room</label>
@@ -37,6 +37,10 @@
 
         <div *ngIf="isFormInvalid" class="alert alert-danger">
             <div>Please fill out the form.</div>
+        </div>
+
+        <div *ngIf="isRoomAdded" class="alert alert-success">
+            <div>Room is successfully added.</div>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

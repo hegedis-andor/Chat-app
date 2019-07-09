@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoomService } from '../services/room.service';
+import { Room } from '../models/room.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-newroom',
@@ -8,13 +11,19 @@ import { RoomService } from '../services/room.service';
   styleUrls: ['./newroom.component.scss']
 })
 export class NewroomComponent implements OnInit {
+  room: Room;
   chatroomForm: FormGroup;
   accessTypes = [ "public", "private", "protected" ];
   accessability: string;
   isFormInvalid: boolean;
+  isRoomAdded: boolean;
 
+  constructor( 
+    private roomService: RoomService,
+    private router: Router
+    ) { 
+    this.room = {};
 
-  constructor( private roomService: RoomService) { 
     this.chatroomForm = new FormGroup({
       roomName: new FormControl('', [Validators.required, Validators.minLength(4)]),
       accessibility: new FormControl(this.accessTypes[0], [Validators.required]),
@@ -34,21 +43,23 @@ export class NewroomComponent implements OnInit {
     return this.chatroomForm.get('password');
   }
 
-  addNewRoom() {
+  add() {
    if (this.chatroomForm.invalid) {
       this.isFormInvalid = true;
       this.hideNotification();
       return;
     }
-    let name = this.roomName.value;
-    let access = this.accessibility.value;
-    let password = this.password.value;
 
-    if (access == 'private') {
-      this.roomService.add(name, access, password);
-    } else {
-      this.roomService.add(name, access, null);
-    }
+    this.room.name = this.roomName.value;
+    this.room.password = (this.password.value === "") ? null : this.password.value; //It is null, when password is not required (public, protected)
+    this.room.accessablitiy =  this.accessibility.value;
+
+    this.roomService.add(this.room); //succes not checked yet.
+
+    this.isRoomAdded = true;
+    setTimeout(() => {
+      this.router.navigateByUrl('/main');
+    }, 1200)
 
   }
 

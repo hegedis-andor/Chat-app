@@ -14,5 +14,8 @@ export class UserService {
       name: user.displayName,
       email: user.email
     });
+
+    localStorage.setItem('userid', user.uid);
   }
+
 }
