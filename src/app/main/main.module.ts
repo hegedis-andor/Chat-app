@@ -7,7 +7,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { MainwindowComponent } from './mainwindow/mainwindow.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
+import { Routes, RouterModule } from '@angular/router';
 
+const routes: Routes = [
+  {path: 'edit', component: EditRoomComponent}
+]
 
 @NgModule({
   declarations: [
@@ -19,7 +23,8 @@ import { EditRoomComponent } from './edit-room/edit-room.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    RouterModule.forChild(routes)
   ],
   exports: [
     ChatRoomComponent,

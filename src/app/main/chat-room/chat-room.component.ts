@@ -26,7 +26,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   add() {
-    this.router.navigateByUrl('/new');
+    this.router.navigateByUrl('/edit');
   }
 
 }

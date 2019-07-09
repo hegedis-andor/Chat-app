@@ -10,7 +10,7 @@ import { EditRoomComponent } from './main/edit-room/edit-room.component';
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent },
-  { path: 'new', component: EditRoomComponent },
+  { path: 'edit', component: EditRoomComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent }
 ];

@@ -17,7 +17,7 @@
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item">Open</a>
-                <a class="dropdown-item">Edit room</a>
+                <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">Edit room</a>
                 <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
             </div>
         </ng-template>

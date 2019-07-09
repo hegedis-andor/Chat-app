@@ -16,9 +16,9 @@ export class RoomService {
   constructor(
     private db: AngularFireDatabase,
     private authService: AuthService,
-    ) { 
-      this.roomsRef = db.list('rooms');
-    }
+  ) {
+    this.roomsRef = db.list('rooms');
+  }
 
   add(room: Room) {
     let userid = this.authService.uid;
@@ -35,15 +35,23 @@ export class RoomService {
 
   getRooms() {
     return this.roomsRef.snapshotChanges().pipe(
-      map( changes => changes.map(c =>
+      map(changes => changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() }))
       )
-    )
-  };
+    );
+  }
+
+  getRoomByKey(roomKey) {
+    return this.db.object('/rooms/' + roomKey).snapshotChanges().pipe(
+      map(changes => ({ key: changes.key, ...changes.payload.val()}))
+    );
+  }
+
 
   delete(roomId: string) {
     this.roomsRef.remove(roomId);
   }
+
 
   generateRoomid(userid, roomName) {
     return btoa(userid + roomName);

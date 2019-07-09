@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoomService } from '../services/room.service';
 import { Room } from '../models/room.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -17,17 +17,23 @@ export class EditRoomComponent implements OnInit {
   accessability: string;
   isFormInvalid: boolean;
   isRoomAdded: boolean;
+  roomKey: string;
 
   constructor( 
     private roomService: RoomService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) { 
     this.room = {};
+    this.roomKey = this.route.snapshot.queryParamMap.get('roomKey');
+    
+    if (this.roomKey)
+      this.roomService.getRoomByKey(this.roomKey);
 
     this.chatroomForm = new FormGroup({
       roomName: new FormControl('', [Validators.required, Validators.minLength(4)]),
       accessibility: new FormControl(this.accessTypes[0], [Validators.required]),
-      password: new FormControl('',),
+      password: new FormControl(''),
     });
   }
 
@@ -71,5 +77,6 @@ export class EditRoomComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }
