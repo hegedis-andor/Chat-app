@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainwindowComponent } from './main/mainwindow/mainwindow.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
-import { NewroomComponent } from './main/newroom/newroom.component';
+import { EditRoomComponent } from './main/edit-room/edit-room.component';
 
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent },
-  { path: 'new', component: NewroomComponent },
+  { path: 'new', component: EditRoomComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent }
 ];

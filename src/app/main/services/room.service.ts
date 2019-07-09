@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AuthService } from 'src/app/services/auth.service';
 import { Room } from '../models/room.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,16 +11,17 @@ import { map } from 'rxjs/operators';
 export class RoomService {
   roomsRef: AngularFireList<any>;
   rooms: Observable<Room[]>;
+  userSubscription: Subscription;
 
   constructor(
     private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
     ) { 
       this.roomsRef = db.list('rooms');
     }
 
   add(room: Room) {
-    let userid = localStorage.getItem('userid');
+    let userid = this.authService.uid;
     let roomId = this.generateRoomid(userid, room.name);
 
     this.db.object('/rooms/' + roomId).set({
@@ -47,6 +48,5 @@ export class RoomService {
   generateRoomid(userid, roomName) {
     return btoa(userid + roomName);
   }
-
 
 }

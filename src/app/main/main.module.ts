@@ -6,13 +6,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { MainwindowComponent } from './mainwindow/mainwindow.component';
-import { NewroomComponent } from './newroom/newroom.component';
+import { EditRoomComponent } from './edit-room/edit-room.component';
 
 
 @NgModule({
   declarations: [
     ChatRoomComponent, 
-    MainwindowComponent, NewroomComponent
+    MainwindowComponent, 
+    EditRoomComponent
   ],
   imports: [
     CommonModule,

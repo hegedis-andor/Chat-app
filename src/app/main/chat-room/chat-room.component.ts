@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../services/room.service';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'chat-room',
@@ -12,7 +13,8 @@ export class ChatRoomComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    public userService: UserService
+    private router: Router,
+    public authService: AuthService,
     ) { }
 
   ngOnInit() {
@@ -21,6 +23,10 @@ export class ChatRoomComponent implements OnInit {
 
   delete(roomId) {
     this.roomService.delete(roomId);
+  }
+
+  add() {
+    this.router.navigateByUrl('/new');
   }
 
 }

@@ -1,11 +1,14 @@
 <div>
-    <a routerLink="/new">Add chat room</a>
+    <button (click)="add()" class="btn btn-primary">Add room</button>
 </div>
 
 <ul class="nav flex-column">
     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
-        <div *ngIf=""></div>
+        <div *ngIf="authService.uid === room.createdBy; then owner else user"></div>
+
+        <ng-container *ngIf=""></ng-container>
+
 
         <ng-template #owner>
             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -13,19 +16,23 @@
                 {{ room.name }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item">Open</a>
                 <a class="dropdown-item">Edit room</a>
                 <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
             </div>
         </ng-template>
 
+
+
         <ng-template #user>
-            <a  class="nav-link">
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 {{ room.name }}
             </a>
+            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item">Open</a>
+            </div>
         </ng-template>
-
-
-
 
     </li>
 </ul>

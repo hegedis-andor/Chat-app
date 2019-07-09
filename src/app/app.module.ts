@@ -6,6 +6,7 @@ import { CoreModule } from './core/core.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { MainModule } from './main/main.module';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 import { AppComponent } from './app.component';
@@ -22,9 +23,11 @@ import { environment } from 'src/environments/environment';
     AuthModule,
     MainModule,
     CoreModule,
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AppRoutingModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

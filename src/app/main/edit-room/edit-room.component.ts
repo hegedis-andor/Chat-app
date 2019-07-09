@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newroom',
-  templateUrl: './newroom.component.html',
-  styleUrls: ['./newroom.component.scss']
+  templateUrl: './edit-room.component.html',
+  styleUrls: ['./edit-room.component.scss']
 })
-export class NewroomComponent implements OnInit {
+export class EditRoomComponent implements OnInit {
   room: Room;
   chatroomForm: FormGroup;
   accessTypes = [ "public", "private", "protected" ];
@@ -54,7 +54,7 @@ export class NewroomComponent implements OnInit {
     this.room.password = (this.password.value === "") ? null : this.password.value; //It is null, when password is not required (public, protected)
     this.room.accessablitiy =  this.accessibility.value;
 
-    this.roomService.add(this.room); //succes not checked yet.
+    this.roomService.add(this.room); //succes's not checked yet.
 
     this.isRoomAdded = true;
     setTimeout(() => {
