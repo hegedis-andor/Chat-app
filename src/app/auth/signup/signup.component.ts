@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   }
 
   signUp() {
-    this.authService.logInWithEmailAndPassword("valami@gmail.com", "jelszo");
+    //this.authService.logInWithEmailAndPassword("valami@gmail.com", "jelszo");
   }
 
 }
