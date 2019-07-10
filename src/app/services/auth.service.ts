@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   user$: Observable<User>;
-  uid: string;
+  user: User;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -21,10 +21,10 @@ export class AuthService {
     private router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap( user => {
+      switchMap(user => {
         if (user) {
-          this.uid = user.uid;
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          this.user = user;
+          return this.afs.doc<User>("users/" + user.uid).valueChanges();
         }
         else
           return of(null);
@@ -35,7 +35,7 @@ export class AuthService {
   async googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
-    
+
     return this.updateUserData(credential.user);
   }
 
@@ -50,14 +50,28 @@ export class AuthService {
     };
 
     this.router.navigateByUrl('/main');
-    
-    return userRef.set(data, {merge: true});
+
+    return userRef.set(data, { merge: true });
   }
+
+  /*signUpWithEmailAndPassword(email, password) {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  logInWithEmailAndPassword(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        console.log(error);
+      });
+  }*/
 
   async logout() {
     await this.afAuth.auth.signOut();
   }
-  
+
 }
 
 
@@ -94,8 +108,8 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private route: ActivatedRoute ) 
-  {  
+    private route: ActivatedRoute )
+  {
     this.user$ = afAuth.authState;
   }
 

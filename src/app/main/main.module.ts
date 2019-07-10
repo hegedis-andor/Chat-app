@@ -4,23 +4,25 @@ import { ReactiveFormsModule, FormsModule }   from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
-import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { MainwindowComponent } from './mainwindow/mainwindow.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ChattingComponent } from './chatting/chatting.component';
 import { OnlineUsersComponent } from './online-users/online-users.component';
+import { MessagingAreaComponent } from './messaging-area/messaging-area.component';
 
 const routes: Routes = [
-  { path: 'main', component: MainwindowComponent },
+  { path: 'main', component: MainwindowComponent, },
   { path: 'edit', component: EditRoomComponent },
 ]
 
 @NgModule({
   declarations: [
-    ChatRoomComponent, 
+    ChatRoomsComponent, 
     MainwindowComponent, 
-    EditRoomComponent, ChattingComponent, OnlineUsersComponent
+    EditRoomComponent, 
+    MessagingAreaComponent, 
+    OnlineUsersComponent
   ],
   imports: [
     CommonModule,
@@ -30,8 +32,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [
-    ChatRoomComponent,
     MainwindowComponent
-  ]
+  ],
 })
 export class MainModule { }

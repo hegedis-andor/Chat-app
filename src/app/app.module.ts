@@ -1,17 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { MainModule } from './main/main.module';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-
-
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
+import { Routes, RouterModule } from '@angular/router';
+import { HomePageComponent } from './core/home-page/home-page.component';
 
+const routes: Routes = [
+  { path: "", component: HomePageComponent}
+]
 
 @NgModule({
   declarations: [
@@ -26,8 +28,7 @@ import { environment } from 'src/environments/environment';
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AppRoutingModule,
-    
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

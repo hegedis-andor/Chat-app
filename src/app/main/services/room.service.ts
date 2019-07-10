@@ -9,9 +9,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RoomService {
-  roomsRef: AngularFireList<any>;
+  roomsRef: AngularFireList<Room>;
   rooms: Observable<Room[]>;
-  userSubscription: Subscription;
 
   constructor(
     private db: AngularFireDatabase,
@@ -21,7 +20,7 @@ export class RoomService {
   }
 
   create(room: Room) {
-    let userid = this.authService.uid;
+    let userid = this.authService.user.uid;
     let roomKey = this.generateRoomKey(userid, room.name);
 
     this.db.object('/rooms/' + roomKey).set({

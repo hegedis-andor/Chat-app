@@ -8,11 +8,11 @@
         </div>
 
         <div class="col-7">
-            <chatting></chatting>
+            <messaging-area #messagingArea></messaging-area>
         </div>
 
         <div class="col-4"> 
-            <chat-room></chat-room>
+            <chat-rooms  (openChatRoom)="messagingArea.open($event)"></chat-rooms>
         </div>
 
     </div>

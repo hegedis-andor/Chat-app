@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { RoomService } from '../services/room.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Room } from '../models/room.model';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'chat-room',
-  templateUrl: './chat-room.component.html',
-  styleUrls: ['./chat-room.component.scss']
+  selector: 'chat-rooms',
+  templateUrl: './chat-rooms.component.html',
+  styleUrls: ['./chat-rooms.component.scss']
 })
-export class ChatRoomComponent implements OnInit {
-  rooms$;
+export class ChatRoomsComponent implements OnInit {
+  rooms$: Observable<Room[]>;
+  @Output() openChatRoom: EventEmitter<Room> = new EventEmitter();
 
   constructor(
     private roomService: RoomService,
@@ -28,6 +30,10 @@ export class ChatRoomComponent implements OnInit {
 
   add() {
     this.router.navigateByUrl('/edit');
+  }
+
+  open(room: Room) {
+    this.openChatRoom.emit(room);
   }
 
 }

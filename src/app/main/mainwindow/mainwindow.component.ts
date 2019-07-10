@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Room } from '../models/room.model';
 
 @Component({
   selector: 'app-mainwindow',
@@ -11,5 +12,6 @@ export class MainwindowComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }
