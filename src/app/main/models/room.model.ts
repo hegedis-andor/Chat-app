@@ -4,5 +4,4 @@ export interface Room {
     accessibility?: string,
     password?: string,
     createdBy?: string,
-    messages?: []
 }

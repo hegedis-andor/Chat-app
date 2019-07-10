@@ -8,7 +8,6 @@
             <input formControlName="roomName" class="form-control" id="roomName" name="roomName" required>
         </div>
         <div *ngIf="roomName.touched && roomName.invalid" class="alert alert-danger">
-
             <div *ngIf="roomName.errors.minlength">Room name should be minimum of 4 character.</div>
             <div *ngIf="roomName.errors.required">Room name is required.</div>
         </div>

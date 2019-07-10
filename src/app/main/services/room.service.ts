@@ -29,7 +29,6 @@ export class RoomService {
       accessibility: room.accessibility,
       password: room.password,
       createdBy: userid,
-      messages: []
     });
   }
 

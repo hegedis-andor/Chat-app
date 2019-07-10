@@ -1,38 +1,45 @@
-<div>
-    <button (click)="add()" class="btn btn-primary">Add room</button>
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="content-area overflow-auto">
+
+                <ul class="nav flex-column">
+                    <li><button (click)="add()" class="btn btn-secondary">Add room</button></li>
+                    <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
+
+                        <div *ngIf="authService.uid === room.createdBy; then creator else user"></div>
+
+                        <ng-template #creator>
+                            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ room.name }}
+                            </a>
+                            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item">Open</a>
+                                <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">Edit
+                                    room</a>
+                                <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
+                            </div>
+                            <hr>
+                        </ng-template>
+
+                        <ng-template #user>
+
+                            <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
+                                class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{ room.name }}
+                            </a>
+
+                            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item">Open</a>
+                            </div>
+                            <hr>
+                        </ng-template>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-
-<ul class="nav flex-column">
-    <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
-
-        <div *ngIf="authService.uid === room.createdBy; then creator else user"></div>
-
-        <ng-template #creator>
-            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                {{ room.name }}
-            </a>
-            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item">Open</a>
-                <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">Edit room</a>
-                <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
-            </div>
-        </ng-template>
-
-
-
-        <ng-template #user>
-
-            <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                {{ room.name }}
-            </a>
-
-            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item">Open</a>
-            </div>
-
-        </ng-template>
-
-    </li>
-</ul>
