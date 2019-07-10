@@ -5,12 +5,9 @@
 <ul class="nav flex-column">
     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
-        <div *ngIf="authService.uid === room.createdBy; then owner else user"></div>
+        <div *ngIf="authService.uid === room.createdBy; then creator else user"></div>
 
-        <ng-container *ngIf=""></ng-container>
-
-
-        <ng-template #owner>
+        <ng-template #creator>
             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {{ room.name }}
@@ -25,13 +22,16 @@
 
 
         <ng-template #user>
-            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+
+            <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {{ room.name }}
             </a>
+
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item">Open</a>
             </div>
+
         </ng-template>
 
     </li>

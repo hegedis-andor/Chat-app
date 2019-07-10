@@ -1,7 +1,7 @@
 export interface Room {
-    id?: string,
+    key?: string,
     name?: string,
-    accessablitiy?: string,
+    accessibility?: string,
     password?: string,
     createdBy?: string,
     messages?: []

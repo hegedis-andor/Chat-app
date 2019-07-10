@@ -1,12 +1,11 @@
 <div class="container">
 
 
-    <form [formGroup]="chatroomForm" (ngSubmit)="add()">
+    <form [formGroup]="chatroomForm" (ngSubmit)="save()">
 
         <div class="form-group">
             <label for="roomName">Name of the Room</label>
-            <input formControlName="roomName"
-                class="form-control" id="roomName" name="roomName" required>
+            <input formControlName="roomName" class="form-control" id="roomName" name="roomName" required>
         </div>
         <div *ngIf="roomName.touched && roomName.invalid" class="alert alert-danger">
 
@@ -25,26 +24,24 @@
         <div *ngIf="chatroomForm.value.accessibility == 'protected'">
             <div class="form-group">
                 <label for="password">Password</label>
-                <input formControlName="password"
-                    type="password" class="form-control" id="password">
+                <input formControlName="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                    id="password">
             </div>
-            <!--    
-                <div *ngIf="password.touched && password.invalid" class="alert alert-danger">
-                    <div *ngIf="password.errors.required">Password is required.</div>
-                    <div *ngIf="password.errors.minlength">Password should be minimum of 4 character.</div>
-                </div>
-            -->
+            <div class="form-check">
+                <input (click)="toggle()" type="checkbox" class="form-check-input" id="passwordToggle">
+                <label class="form-check-label" for="passwordToggle">Show password</label>
+            </div>
         </div>
 
-        <div *ngIf="isFormInvalid" class="alert alert-danger">
+        <div *ngIf="!isFormValid" class="alert alert-danger">
             <div>Please fill out the form.</div>
         </div>
 
         <div *ngIf="isRoomAdded" class="alert alert-success">
-            <div>Room is successfully added.</div>
+            <div>Room is successfully saved.</div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Save</button>
 
     </form>
 </div>

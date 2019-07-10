@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoomService } from '../services/room.service';
 import { Room } from '../models/room.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,31 +11,46 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './edit-room.component.html',
   styleUrls: ['./edit-room.component.scss']
 })
-export class EditRoomComponent implements OnInit {
-  room: Room;
-  chatroomForm: FormGroup;
-  accessTypes = [ "public", "private", "protected" ];
-  accessability: string;
-  isFormInvalid: boolean;
-  isRoomAdded: boolean;
-  roomKey: string;
+export class EditRoomComponent implements OnInit, OnDestroy {
 
-  constructor( 
+  chatroomForm: FormGroup;
+  accessTypes = ["public", "private", "protected"];
+  accessability: string;
+  isFormValid: boolean = true;
+  isRoomSaved: boolean;
+  roomKey: string;
+  subscription: Subscription;
+  showPassword: boolean;
+  action: string = 'create';
+  roomUpdate: Room;
+
+  constructor(
     private roomService: RoomService,
     private router: Router,
     private route: ActivatedRoute
-    ) { 
-    this.room = {};
-    this.roomKey = this.route.snapshot.queryParamMap.get('roomKey');
-    
-    if (this.roomKey)
-      this.roomService.getRoomByKey(this.roomKey);
+  ) {
 
     this.chatroomForm = new FormGroup({
       roomName: new FormControl('', [Validators.required, Validators.minLength(4)]),
       accessibility: new FormControl(this.accessTypes[0], [Validators.required]),
       password: new FormControl(''),
     });
+  }
+
+  ngOnInit() {
+    this.roomKey = this.route.snapshot.queryParamMap.get('roomKey');
+
+    if (this.roomKey) {
+      this.action = 'update';
+
+      this.subscription = this.roomService.getBy(this.roomKey).subscribe( r => {
+        this.roomUpdate = r;
+
+        this.chatroomForm.controls['roomName'].setValue(this.roomUpdate['name']);
+        this.chatroomForm.controls['accessibility'].setValue(this.roomUpdate['accessibility']);
+        this.chatroomForm.controls['password'].setValue(this.roomUpdate['password']);
+      });
+    }
   }
 
   get roomName() {
@@ -49,34 +65,63 @@ export class EditRoomComponent implements OnInit {
     return this.chatroomForm.get('password');
   }
 
-  add() {
-   if (this.chatroomForm.invalid) {
-      this.isFormInvalid = true;
+  save() {
+    if (this.chatroomForm.invalid) {
+      this.isFormValid = false;
       this.hideNotification();
       return;
     }
 
-    this.room.name = this.roomName.value;
-    this.room.password = (this.password.value === "") ? null : this.password.value; //It is null, when password is not required (public, protected)
-    this.room.accessablitiy =  this.accessibility.value;
+    if(this.action === 'create')
+      this.create();
+    else 
+      this.update();
+  }
 
-    this.roomService.add(this.room); //succes's not checked yet.
+  initRoomFromForm(): Room {
+    let room: Room = {};
+    room.name = this.roomName.value;
+    room.password = (this.password.value === "") ? null : this.password.value;
+    room.accessibility = this.accessibility.value;
 
-    this.isRoomAdded = true;
+    return room;
+  }
+
+  create() {
+    let room = this.initRoomFromForm();
+
+    this.roomService.create(room); //Not checked if it succeed
+    this.navigateToMainPage();
+  }
+
+  update() {
+    let room = this.initRoomFromForm();
+    room.key = this.roomUpdate.key;
+
+    this.roomService.update(room);  //Not checked if it succeed
+    this.navigateToMainPage();
+  }
+
+  navigateToMainPage() {
+    this.isRoomSaved = true;
     setTimeout(() => {
       this.router.navigateByUrl('/main');
     }, 1200)
-
   }
 
   hideNotification() {
     setTimeout(() => {
-      this.isFormInvalid = false;
+      this.isFormValid = true;
     }, 3000);
   }
 
-  ngOnInit() {
+  toggle() {
+    this.showPassword = !this.showPassword;
   }
 
+  ngOnDestroy(): void {
+    if(this.subscription)
+      this.subscription.unsubscribe();
+  }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AuthService } from 'src/app/services/auth.service';
 import { Room } from '../models/room.model';
@@ -20,20 +20,20 @@ export class RoomService {
     this.roomsRef = db.list('rooms');
   }
 
-  add(room: Room) {
+  create(room: Room) {
     let userid = this.authService.uid;
-    let roomId = this.generateRoomid(userid, room.name);
+    let roomKey = this.generateRoomKey(userid, room.name);
 
-    this.db.object('/rooms/' + roomId).set({
+    this.db.object('/rooms/' + roomKey).set({
       name: room.name,
-      accessablitiy: room.accessablitiy,
+      accessibility: room.accessibility,
       password: room.password,
       createdBy: userid,
       messages: []
     });
   }
 
-  getRooms() {
+  getAll() {
     return this.roomsRef.snapshotChanges().pipe(
       map(changes => changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() }))
@@ -41,19 +41,35 @@ export class RoomService {
     );
   }
 
-  getRoomByKey(roomKey) {
+  getBy(roomKey: string) {
     return this.db.object('/rooms/' + roomKey).snapshotChanges().pipe(
       map(changes => ({ key: changes.key, ...changes.payload.val()}))
     );
   }
 
+  update(room: Room) {
+    if (room.accessibility === 'protected') {
+      this.db.object('/rooms/' + room.key).update({
+        name: room.name,
+        accessibility: room.accessibility,
+        password: room.password
+      });
+    } else {
+      this.db.object('/rooms/' + room.key).update({
+        name: room.name,
+        accessibility: room.accessibility,
+      });
+    }
 
-  delete(roomId: string) {
-    this.roomsRef.remove(roomId);
+  }
+
+  delete(roomKey: string) {
+    this.roomsRef.remove(roomKey);
   }
 
 
-  generateRoomid(userid, roomName) {
+
+  generateRoomKey(userid, roomName) {
     return btoa(userid + roomName);
   }
 

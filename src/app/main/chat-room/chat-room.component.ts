@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../services/room.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'chat-room',
@@ -18,7 +19,7 @@ export class ChatRoomComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.rooms$ = this.roomService.getRooms();
+    this.rooms$ = this.roomService.getAll();
   }
 
   delete(roomId) {
