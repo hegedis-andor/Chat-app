@@ -6,9 +6,10 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { MainModule } from './main/main.module';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { Routes, RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
 import { HomePageComponent } from './core/home-page/home-page.component';
 
 const routes: Routes = [

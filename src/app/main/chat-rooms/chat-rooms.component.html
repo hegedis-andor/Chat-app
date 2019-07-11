@@ -7,9 +7,9 @@
                     <li><button (click)="add()" class="btn btn-secondary">Add room</button></li>
                     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
-                        <div *ngIf="authService.user.uid === room.createdBy; then creator else user"></div>
+                        <div *ngIf="authService.user.uid === room.createdBy; then creatorOfRoom else user"></div>
 
-                        <ng-template #creator>
+                        <ng-template #creatorOfRoom>
                             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ room.name }}
@@ -25,7 +25,6 @@
                         </ng-template>
 
                         <ng-template #user>
-
                             <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
                                 class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">

@@ -24,8 +24,8 @@ export class ChatRoomsComponent implements OnInit {
     this.rooms$ = this.roomService.getAll();
   }
 
-  delete(roomId) {
-    this.roomService.delete(roomId);
+  delete(roomKey) {
+    this.roomService.delete(roomKey);
   }
 
   add() {

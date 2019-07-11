@@ -51,7 +51,7 @@ export class AuthService {
 
     this.router.navigateByUrl('/main');
 
-    return this.db.object('users/' + user.uid).set(data);
+    return this.db.object('users/' + user.uid).update(data);
   }
 
   async logout() {

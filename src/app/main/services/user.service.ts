@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +9,16 @@ export class UserService {
 
   constructor(
     private afAuth: AngularFireAuth, 
-    private db: AngularFireDatabase,
-    private authService: AuthService) { 
+    private db: AngularFireDatabase) { 
     this.setUserPresence();
   }
 
   getUserUid() {
-    return this.authService.user.uid;
+    return this.afAuth.auth.currentUser.uid;
   }
 
   setUserPresence() {
-    let userStatusDatabaseRef = this.db.database.ref('status/' + this.getUserUid());
+    let userStatusDatabaseRef = this.db.database.ref('users/' + this.getUserUid());
 
     const isOfflineForDatabase = {
       state: 'offline'
@@ -34,8 +32,8 @@ export class UserService {
       if (snapshot.val() == false)
         return;
 
-      userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-        userStatusDatabaseRef.set(isOnlineForDatabase);
+      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function() {
+        userStatusDatabaseRef.update(isOnlineForDatabase);
       })
     })
   }

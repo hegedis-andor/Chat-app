@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule }   from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { Routes, RouterModule } from '@angular/router';
 
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { MainwindowComponent } from './mainwindow/mainwindow.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
-import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users/users.component';
 import { MessagingAreaComponent } from './messaging-area/messaging-area.component';
 

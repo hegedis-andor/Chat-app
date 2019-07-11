@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'users',
