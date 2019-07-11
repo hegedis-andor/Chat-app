@@ -2,18 +2,9 @@
     <div class="card mb-3">
         <div class="card-body">
             <div class="content-area overflow-auto">
+                Users:
                 <ul class="nav flex-column">
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
-                    <li>user</li>
+                    <li *ngFor=" let user of users$ | async "> {{ user.displayName }}</li>
                 </ul>
             </div>
         </div>

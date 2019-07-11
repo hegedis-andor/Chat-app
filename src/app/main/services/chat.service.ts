@@ -23,8 +23,6 @@ export class ChatService {
       username: message.username,
       roomKey: message.roomKey
     });
-
-
   }
 
   getBy(roomKey: string) {

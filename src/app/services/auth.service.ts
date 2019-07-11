@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { User } from '../models/user.model';
 import { switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { UserService } from '../main/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +18,15 @@ export class AuthService {
   user: User;
 
   constructor(
+    private db: AngularFireDatabase,
     private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
     private router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
           this.user = user;
-          return this.afs.doc<User>("users/" + user.uid).valueChanges();
+          return this.db.object('users/' + user.uid).valueChanges();
         }
         else
           return of(null);
@@ -40,8 +42,6 @@ export class AuthService {
   }
 
   private updateUserData(user) {
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
     const data = {
       uid: user.uid,
       email: user.email,
@@ -51,25 +51,12 @@ export class AuthService {
 
     this.router.navigateByUrl('/main');
 
-    return userRef.set(data, { merge: true });
+    return this.db.object('users/' + user.uid).set(data);
   }
-
-  /*signUpWithEmailAndPassword(email, password) {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  logInWithEmailAndPassword(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log(error);
-      });
-  }*/
 
   async logout() {
     await this.afAuth.auth.signOut();
+    this.router.navigateByUrl('/');
   }
 
 }

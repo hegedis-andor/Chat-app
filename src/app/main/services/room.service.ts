@@ -65,8 +65,6 @@ export class RoomService {
     this.roomsRef.remove(roomKey);
   }
 
-
-
   generateRoomKey(userid, roomName) {
     return btoa(userid + roomName);
   }
