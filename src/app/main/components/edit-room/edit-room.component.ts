@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RoomService } from '../services/room.service';
-import { Room } from '../models/room.model';
+import { RoomService } from '../../services/room.service';
+import { Room } from '../../models/room.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 

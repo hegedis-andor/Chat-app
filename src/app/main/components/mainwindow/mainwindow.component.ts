@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Room } from '../models/room.model';
+import { Room } from '../../models/room.model';
 
 @Component({
   selector: 'app-mainwindow',

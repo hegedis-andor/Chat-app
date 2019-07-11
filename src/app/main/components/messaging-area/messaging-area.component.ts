@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChatService } from '../services/chat.service';
-import { ChatroomMessage } from '../models/chatroom-message.model';
+import { ChatService } from '../../services/chat.service';
+import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { Room } from '../models/room.model';
+import { Room } from '../../models/room.model';
 
 
 
@@ -37,7 +37,6 @@ export class MessagingAreaComponent {
   sendMessage() {
     if(!this.canSend())
       return;
-
 
     let chatroomMessage: ChatroomMessage = {
       timestamp: + new Date(),

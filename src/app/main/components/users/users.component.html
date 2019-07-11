@@ -6,7 +6,7 @@
                     <li>Online users:</li>
                     <hr>
                     <ng-container *ngFor=" let user of users$ | async ">
-                        <li *ngIf="user.state == 'online'"> {{ user.displayName }} <a >send</a></li>
+                        <li *ngIf="user.state == 'online'"> {{ user.displayName }} | <a routerLink="/private">send</a></li>
                     </ng-container>
                 </ul>
             </div>

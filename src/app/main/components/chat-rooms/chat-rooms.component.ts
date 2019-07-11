@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { RoomService } from '../services/room.service';
+import { RoomService } from '../../services/room.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { Room } from '../models/room.model';
+import { Room } from '../../models/room.model';
 import { Observable } from 'rxjs';
 
 @Component({
