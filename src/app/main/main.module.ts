@@ -8,7 +8,7 @@ import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { MainwindowComponent } from './mainwindow/mainwindow.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
 import { Routes, RouterModule } from '@angular/router';
-import { OnlineUsersComponent } from './online-users/online-users.component';
+import { UsersComponent } from './users/users.component';
 import { MessagingAreaComponent } from './messaging-area/messaging-area.component';
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
     MainwindowComponent, 
     EditRoomComponent, 
     MessagingAreaComponent, 
-    OnlineUsersComponent
+    UsersComponent
   ],
   imports: [
     CommonModule,
