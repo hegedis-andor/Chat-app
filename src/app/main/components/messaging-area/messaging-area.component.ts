@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -27,7 +27,7 @@ export class MessagingAreaComponent {
     this.messages$ = this.chatService.getBy(this.room.key);
   }
 
-  canSend() {
+  canSendMessage() {
     let isEmpty = (this.inputMessage == '' || this.inputMessage == undefined);
     let isRoomSelected = this.room ? true: false;
 
@@ -35,7 +35,7 @@ export class MessagingAreaComponent {
   }
 
   sendMessage() {
-    if(!this.canSend())
+    if(!this.canSendMessage())
       return;
 
     let chatroomMessage: ChatroomMessage = {
@@ -46,7 +46,7 @@ export class MessagingAreaComponent {
       roomKey: this.room.key
     };
 
-    this.chatService.create(chatroomMessage);
+    this.chatService.create(chatroomMessage); //not checked if it succeeds
     this.inputMessage = '';
   }
 

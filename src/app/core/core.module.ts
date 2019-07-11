@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { NavbarComponent } from './navbar/navbar.component';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from '../auth/login/login.component';
-import { SignupComponent } from '../auth/signup/signup.component';
-import { HomePageComponent } from './home-page/home-page.component';
+
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from '../auth/components/login/login.component';
+import { SignupComponent } from '../auth/components/signup/signup.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},

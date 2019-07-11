@@ -4,7 +4,9 @@
             <div class="content-area overflow-auto">
 
                 <ul class="nav flex-column">
+
                     <li><button (click)="add()" class="btn btn-secondary">Add room</button></li>
+
                     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
                         <div *ngIf="authService.user.uid === room.createdBy; then creatorOfRoom else user"></div>
@@ -15,11 +17,15 @@
                                 {{ room.name }}
                             </a>
                             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a (click)="open(room)" class="dropdown-item">Open</a>
+                                <a (click)="open(room)" class="dropdown-item">
+                                    Open
+                                </a>
                                 <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">
                                     Edit room
                                 </a>
-                                <a class="dropdown-item" (click)="delete(room.key)">Delete room</a>
+                                <a class="dropdown-item" (click)="delete(room.key)">
+                                    Delete room
+                                </a>
                             </div>
                             <hr>
                         </ng-template>
@@ -32,7 +38,9 @@
                             </a>
 
                             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a (click)="open(room)" class="dropdown-item">Open</a>
+                                <a (click)="open(room)" class="dropdown-item">
+                                    Open
+                                </a>
                             </div>
                             <hr>
                         </ng-template>

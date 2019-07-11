@@ -6,13 +6,15 @@ import { UserService } from '../../services/user.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
   users$;
 
-  constructor(private userService: UserService) { }
+  constructor(public userService: UserService) { 
+    this.users$ = this.userService.getUsers();
+  }
 
-  ngOnInit() {
-    this.users$ = this.userService.getUsers()
+  isOtherUser(uid: string) {
+    return this.userService.getUserUid() != uid;
   }
 
 }

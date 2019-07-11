@@ -41,7 +41,7 @@ export class RoomService {
 
   getBy(roomKey: string) {
     return this.db.object('/rooms/' + roomKey).snapshotChanges().pipe(
-      map(changes => ({ key: changes.key, ...changes.payload.val()}))
+      map(changes => ({ key: changes.key, ...changes.payload.val() }))
     );
   }
 
@@ -52,13 +52,14 @@ export class RoomService {
         accessibility: room.accessibility,
         password: room.password
       });
-    } else {
-      this.db.object('/rooms/' + room.key).update({
-        name: room.name,
-        accessibility: room.accessibility,
-      });
+
+      return;
     }
 
+    this.db.object('/rooms/' + room.key).update({
+      name: room.name,
+      accessibility: room.accessibility,
+    });
   }
 
   delete(roomKey: string) {

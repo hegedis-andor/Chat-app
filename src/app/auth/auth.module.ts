@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ReactiveFormsModule, FormsModule }   from '@angular/forms';
 
-
-import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
-
+import { SignupComponent } from './components/signup/signup.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +15,7 @@ import { LoginComponent } from './login/login.component';
     CommonModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     SignupComponent,

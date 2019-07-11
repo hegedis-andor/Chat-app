@@ -7,19 +7,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
-  signUpForm: FormGroup;
+export class SignupComponent  {
 
-  constructor(private authService: AuthService) {
-    
-    this.signUpForm = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
-    });
-  }
-
-  ngOnInit() {
-  }
+  constructor() { }
 
 
 }

@@ -6,12 +6,8 @@ import { Room } from '../../models/room.model';
   templateUrl: './mainwindow.component.html',
   styleUrls: ['./mainwindow.component.scss']
 })
-export class MainwindowComponent implements OnInit {
+export class MainwindowComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
 
 }

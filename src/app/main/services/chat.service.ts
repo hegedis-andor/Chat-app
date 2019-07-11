@@ -9,9 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ChatService {
 
 
-  constructor(
-    private db: AngularFireDatabase,
-    private authService: AuthService) { }
+  constructor(private db: AngularFireDatabase) { }
 
   create(message: ChatroomMessage) {
     let messageKey = this.generateMessageId(message.timestamp);

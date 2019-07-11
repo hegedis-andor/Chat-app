@@ -8,9 +8,10 @@ import { MainModule } from './main/main.module';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { Routes, RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './core/home-page/home-page.component';
+import { HomePageComponent } from './core/components/home-page/home-page.component';
 
 const routes: Routes = [
   { path: "", component: HomePageComponent}
@@ -29,6 +30,7 @@ const routes: Routes = [
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

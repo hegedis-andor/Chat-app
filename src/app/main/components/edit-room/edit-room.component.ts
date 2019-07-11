@@ -18,18 +18,17 @@ export class EditRoomComponent implements OnInit, OnDestroy {
   accessability: string;
   isFormValid: boolean = true;
   isRoomSaved: boolean;
-  roomKey: string;
-  subscription: Subscription;
-  showPassword: boolean;
-  action: string = 'create';
   roomForUpdate: Room;
+  roomKey: string;
+  showPassword: boolean;
+  subscription: Subscription;
+  action: string = 'create';
 
   constructor(
     private roomService: RoomService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-
     this.chatroomForm = new FormGroup({
       roomName: new FormControl('', [Validators.required, Validators.minLength(4)]),
       accessibility: new FormControl(this.accessTypes[0], [Validators.required]),
@@ -53,18 +52,6 @@ export class EditRoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  get roomName() {
-    return this.chatroomForm.get('roomName');
-  }
-
-  get accessibility() {
-    return this.chatroomForm.get('accessibility');
-  }
-
-  get password() {
-    return this.chatroomForm.get('password');
-  }
-
   save() {
     if (this.chatroomForm.invalid) {
       this.isFormValid = false;
@@ -78,6 +65,21 @@ export class EditRoomComponent implements OnInit, OnDestroy {
       this.update();
   }
 
+  create() {
+    let room = this.initRoomFromForm();
+
+    this.roomService.create(room); //Not checked if it succeeds
+    this.navigateToMainPage();
+  }
+
+  update() {
+    let room = this.initRoomFromForm();
+    room.key = this.roomForUpdate.key;
+
+    this.roomService.update(room);  //Not checked if it succeeds
+    this.navigateToMainPage();
+  }
+
   initRoomFromForm(): Room {
     let room: Room = {};
     room.name = this.roomName.value;
@@ -87,26 +89,16 @@ export class EditRoomComponent implements OnInit, OnDestroy {
     return room;
   }
 
-  create() {
-    let room = this.initRoomFromForm();
-
-    this.roomService.create(room); //Not checked if it succeed
-    this.navigateToMainPage();
-  }
-
-  update() {
-    let room = this.initRoomFromForm();
-    room.key = this.roomForUpdate.key;
-
-    this.roomService.update(room);  //Not checked if it succeed
-    this.navigateToMainPage();
-  }
-
   navigateToMainPage() {
-    this.isRoomSaved = true;
+    this.showSuccessMessage();
+    
     setTimeout(() => {
       this.router.navigateByUrl('/main');
     }, 1200)
+  }
+
+  showSuccessMessage() {
+    this.isRoomSaved = true;
   }
 
   hideNotification() {
@@ -117,6 +109,18 @@ export class EditRoomComponent implements OnInit, OnDestroy {
 
   toggle() {
     this.showPassword = !this.showPassword;
+  }
+
+  get roomName() {
+    return this.chatroomForm.get('roomName');
+  }
+
+  get accessibility() {
+    return this.chatroomForm.get('accessibility');
+  }
+
+  get password() {
+    return this.chatroomForm.get('password');
   }
 
   ngOnDestroy(): void {

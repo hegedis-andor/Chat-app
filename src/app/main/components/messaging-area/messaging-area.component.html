@@ -4,9 +4,9 @@
             <div class="content-area overflow-auto">
 
                 <h5 class="card-title">        
-                    Room name: <div *ngIf="room, then roomOpened else noRoomOpened"></div>
+                    Room name: <div *ngIf="room; then roomOpened else noRoomOpened"> </div>
                     <ng-template #roomOpened>{{room.name}}</ng-template>
-                    <ng-template #noRoomOpened> Open a room on the sidebar -></ng-template>
+                    <ng-template #noRoomOpened> Open a room on the sidebar</ng-template>
                 </h5>
 
                 <hr>
@@ -24,7 +24,7 @@
                     aria-label="message">
                     
                 <div class="input-group-append">
-                    <button (click)="sendMessage()" [disabled]="!canSend()" class="btn btn-outline-secondary" type="button">
+                    <button (click)="sendMessage()" [disabled]="!canSendMessage()" class="btn btn-outline-secondary" type="button">
                         Send
                     </button>
                 </div>

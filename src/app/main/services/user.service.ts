@@ -7,12 +7,15 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class UserService {
 
+
   constructor(
-    private afAuth: AngularFireAuth, 
-    private db: AngularFireDatabase) { 
+    private afAuth: AngularFireAuth,
+    private db: AngularFireDatabase) {
+    //on /main route on refresh it throws error, uid 
     this.setUserPresence();
   }
 
+  
   getUserUid() {
     return this.afAuth.auth.currentUser.uid;
   }
@@ -28,11 +31,11 @@ export class UserService {
       state: 'online'
     };
 
-    this.db.database.ref('.info/connected').on('value', function(snapshot) {
+    this.db.database.ref('.info/connected').on('value', function (snapshot) {
       if (snapshot.val() == false)
         return;
 
-      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function() {
+      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function () {
         userStatusDatabaseRef.update(isOnlineForDatabase);
       })
     })

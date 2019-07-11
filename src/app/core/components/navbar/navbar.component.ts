@@ -9,14 +9,11 @@ import { User } from 'src/app/models/user.model';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   user$: Observable<User>;
 
   constructor(private authService: AuthService) {
     this.user$ = authService.user$;
-  }
-
-  ngOnInit() {
   }
 
   logout() {

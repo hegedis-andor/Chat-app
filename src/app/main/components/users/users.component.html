@@ -3,11 +3,14 @@
         <div class="card-body">
             <div class="content-area overflow-auto">
                 <ul class="nav flex-column">
+
                     <li>Online users:</li>
+
                     <hr>
                     <ng-container *ngFor=" let user of users$ | async ">
-                        <li *ngIf="user.state == 'online'"> {{ user.displayName }} | <a routerLink="/private">send</a></li>
+                        <li *ngIf="user.state == 'online'"> {{ user.displayName }} <a *ngIf="isOtherUser(user.uid)" routerLink="/private">send</a></li>
                     </ng-container>
+                    
                 </ul>
             </div>
         </div>
