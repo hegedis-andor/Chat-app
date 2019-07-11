@@ -29,12 +29,16 @@ export class MessagingAreaComponent {
 
   canSend() {
     let isEmpty = (this.inputMessage == '' || this.inputMessage == undefined);
-    let roomSelected = this.room ? false: true;
+    let isRoomSelected = this.room ? true: false;
 
-    return isEmpty || roomSelected;
+    return (!isEmpty && isRoomSelected);
   }
 
   sendMessage() {
+    if(!this.canSend())
+      return;
+
+
     let chatroomMessage: ChatroomMessage = {
       timestamp: + new Date(),
       userId: this.authService.user.uid,

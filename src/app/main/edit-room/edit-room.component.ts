@@ -22,7 +22,7 @@ export class EditRoomComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   showPassword: boolean;
   action: string = 'create';
-  roomUpdate: Room;
+  roomForUpdate: Room;
 
   constructor(
     private roomService: RoomService,
@@ -44,11 +44,11 @@ export class EditRoomComponent implements OnInit, OnDestroy {
       this.action = 'update';
 
       this.subscription = this.roomService.getBy(this.roomKey).subscribe( r => {
-        this.roomUpdate = r;
+        this.roomForUpdate = r;
 
-        this.chatroomForm.controls['roomName'].setValue(this.roomUpdate['name']);
-        this.chatroomForm.controls['accessibility'].setValue(this.roomUpdate['accessibility']);
-        this.chatroomForm.controls['password'].setValue(this.roomUpdate['password']);
+        this.chatroomForm.controls['roomName'].setValue(this.roomForUpdate['name']);
+        this.chatroomForm.controls['accessibility'].setValue(this.roomForUpdate['accessibility']);
+        this.chatroomForm.controls['password'].setValue(this.roomForUpdate['password']);
       });
     }
   }
@@ -96,7 +96,7 @@ export class EditRoomComponent implements OnInit, OnDestroy {
 
   update() {
     let room = this.initRoomFromForm();
-    room.key = this.roomUpdate.key;
+    room.key = this.roomForUpdate.key;
 
     this.roomService.update(room);  //Not checked if it succeed
     this.navigateToMainPage();

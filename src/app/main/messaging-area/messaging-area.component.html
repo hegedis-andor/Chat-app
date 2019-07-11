@@ -24,7 +24,7 @@
                     aria-label="message">
                     
                 <div class="input-group-append">
-                    <button (click)="sendMessage()" [disabled]="canSend()" class="btn btn-outline-secondary" type="button">
+                    <button (click)="sendMessage()" [disabled]="!canSend()" class="btn btn-outline-secondary" type="button">
                         Send
                     </button>
                 </div>
