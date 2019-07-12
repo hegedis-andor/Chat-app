@@ -14,19 +14,14 @@ export class ChatService {
   create(message: ChatroomMessage) {
     const messageKey = this.generateMessageId(message.timestamp);
 
-    this.db.object('/chatroomMessages/' + messageKey).set({
-      content: message.content,
-      timestamp: message.timestamp,
-      userid: message.userId,
-      username: message.username,
-      roomKey: message.roomKey
-    });
+    this.db.object('/chatroomMessages/' + messageKey).set(message);
   }
 
   getBy(roomKey: string) {
     return this.db.list('/chatroomMessages', ref => ref.orderByChild('roomKey').equalTo(roomKey)).valueChanges();
   }
 
+  // this is a quick "solution" for generating id for message, but it should not be used in real produciton
   generateMessageId(timestamp) {
     return btoa(timestamp);
   }

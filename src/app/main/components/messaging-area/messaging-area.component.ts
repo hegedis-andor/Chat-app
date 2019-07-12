@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { Room } from '../../models/room.model';
-import { ChatService } from '../../services/chat.service';
+import { ChatService } from '../../services/chat-room.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 

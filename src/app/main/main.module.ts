@@ -20,7 +20,7 @@ import { UsersComponent } from './components/users/users.component';
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},
   { path: 'edit', component: EditRoomComponent, canActivate: [AuthGuardService] },
-  { path: 'private', component: PrivateMessageComponent, canActivate: [AuthGuardService] },
+  { path: 'private/:partnerName/:partnerUid', component: PrivateMessageComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
