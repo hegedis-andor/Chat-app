@@ -11,7 +11,6 @@ export class UserService {
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase) {
-    //on /main route on refresh it throws error, uid 
     this.setUserPresence();
   }
 
@@ -21,7 +20,11 @@ export class UserService {
   }
 
   setUserPresence() {
-    let userStatusDatabaseRef = this.db.database.ref('users/' + this.getUserUid());
+    let uid = this.getUserUid();
+    if (!uid)
+      return;
+
+    let userStatusDatabaseRef = this.db.database.ref('users/' + uid);
 
     const isOfflineForDatabase = {
       state: 'offline'
@@ -45,4 +48,11 @@ export class UserService {
     return this.db.list('users').valueChanges();
   }
 
+  getOnlineUsers() {
+    return this.db.list('/users', ref => ref.orderByChild('state').equalTo('online')).valueChanges();
+  }
+
+  getOfflineUsers() {
+    return this.db.list('/users', ref => ref.orderByChild('state').equalTo('offline')).valueChanges();
+  }
 }

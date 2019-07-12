@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Routes, RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 import { ChatRoomsComponent } from './components/chat-rooms/chat-rooms.component';
 import { MainwindowComponent } from './components/mainwindow/mainwindow.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
     NgbModule,
     MatDialogModule,
     MatInputModule,
+    MatButtonModule,
     RouterModule.forChild(routes)
   ],
   exports: [

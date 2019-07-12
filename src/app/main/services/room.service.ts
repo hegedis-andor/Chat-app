@@ -66,7 +66,14 @@ export class RoomService {
     this.roomsRef.remove(roomKey);
   }
 
-  generateRoomKey(userid, roomName) {
+  getRoomPassword(roomKey: string) {
+    return this.db.object('/rooms/' + roomKey + "/password").snapshotChanges().pipe(
+      map(changes => changes.payload.val())
+    );
+  }
+
+  //this is a quick way to generate random room key for db, it is not production ready
+  generateRoomKey(userid: string, roomName: string) {
     return btoa(userid + roomName);
   }
 

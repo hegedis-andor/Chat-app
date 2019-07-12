@@ -2,16 +2,26 @@
     <div class="card mb-3">
         <div class="card-body">
             <div class="content-area overflow-auto">
+
                 <ul class="nav flex-column">
-
                     <li>Online users:</li>
-
                     <hr>
-                    <ng-container *ngFor=" let user of users$ | async ">
-                        <li *ngIf="user.state == 'online'"> {{ user.displayName }} <a *ngIf="isOtherUser(user.uid)" routerLink="/private">send</a></li>
+                    
+                    <ng-container *ngFor=" let onlineUser of onlineUsers$ | async ">
+                        <li> {{ onlineUser.displayName }} <a *ngIf="isOtherUser(onlineUser.uid)" routerLink="/private">send</a></li>
                     </ng-container>
                     
                 </ul>
+
+                <ul class="nav flex-column margin-top">
+                    <li>Offline users:</li>
+                    <hr>
+
+                    <ng-container *ngFor=" let offlineUser of offlineUsers$ | async ">
+                        <li> {{ offlineUser.displayName }} <a *ngIf="isOtherUser(offlineUser.uid)" routerLink="/private">send</a></li>
+                    </ng-container>
+                </ul>
+
             </div>
         </div>
     </div>

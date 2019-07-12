@@ -7,10 +7,12 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  users$;
+  onlineUsers$;
+  offlineUsers$;
 
   constructor(public userService: UserService) { 
-    this.users$ = this.userService.getUsers();
+    this.onlineUsers$ = this.userService.getOnlineUsers();
+    this.offlineUsers$ = this.userService.getOfflineUsers();
   }
 
   isOtherUser(uid: string) {
