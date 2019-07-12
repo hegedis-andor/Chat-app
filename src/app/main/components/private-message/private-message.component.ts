@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { PrivateMessage } from '../../models/private-message.model';
-import { AuthService } from './../../../services/auth.service';
+import { PresenceService } from './../../../shared/services/presence.service';
 import { PrivateMessageService } from './../../services/private-message.service';
 
 @Component({
@@ -22,8 +23,11 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
   constructor(
     public privateMessageService: PrivateMessageService,
     private authService: AuthService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private presenceService: PresenceService
+  ) {
+    this.presenceService.setUserPresence();
+   }
 
   ngOnInit(): void {
     this.paramSubscription = this.route.paramMap.subscribe(params => {

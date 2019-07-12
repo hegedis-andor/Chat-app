@@ -2,32 +2,51 @@
     <div class="row">
         <div class="col-6 offset-2">
 
+
             <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
                 <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email">
+                    <label for="username">Username</label>
+                    <input formControlName="username" type="text" class="form-control" id="username"
+                        aria-describedby="usernameHelp" placeholder="Enter username">
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <div *ngIf="username.touched && username.invalid" class="alert alert-danger">
+                    <div *ngIf="username.errors.minlength">Username name should be minimum of 4 character.</div>
+                    <div *ngIf="username.errors.required">Username name is required.</div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input formControlName="email" type="email" class="form-control" id="email"
+                        aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div *ngIf="email.touched && email.invalid" class="alert alert-danger">
+                    <div *ngIf="email.errors.email">Please enter a valid email address.</div>
+                    <div *ngIf="email.errors.required">Email is required.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1"
+                        placeholder="Password">
+                </div>
+                <div *ngIf="password.touched && password.invalid" class="alert alert-danger">
+                    <div *ngIf="password.errors.minlength">Password name should be minimum of 6 character.</div>
+                    <div *ngIf="password.errors.required">Password is required.</div>
+                </div>
+
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                    <div >{{ errorMessage }}</div>
+                </div>
+
+                <button type="submit" [disabled]="signUpForm.invalid" class="btn btn-primary">Sign Up</button>
             </form>
 
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-6 offset-2">
             <hr>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col offset-3">
-            <p>This component has not been implemented yet.</p>
         </div>
     </div>
 

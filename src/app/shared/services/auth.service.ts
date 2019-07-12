@@ -6,7 +6,7 @@ import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,21 @@ export class AuthService {
         }
       })
     );
+  }
+
+  // it is not checked yet if it returns with error
+  async signUpWithEmailAndPassword(username: string, email: string, password: string) {
+    const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+
+    const user = this.afAuth.auth.currentUser;
+    user.updateProfile({
+      displayName: username
+    }).then( _ => this.updateUserData(credential.user));
+
+  }
+
+  async loginWithEmailAndPassword(email: string, password: string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
   async googleLogin() {

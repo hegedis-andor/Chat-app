@@ -1,58 +1,57 @@
-<div class="row">
+<div class="margin-top">
+    <div class="row">
 
-    <div class="col-3">
-        <div class="container">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="content-area overflow-auto">
-                        <ul class="nav flex-column">
-                            <li>Private chat partners:</li>
-                            <hr>
+        <div class="col-3">
+            <div class="container">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="content-area overflow-auto">
+                            <ul class="nav flex-column">
+                                <li>Private chat partners:</li>
+                                <hr>
 
-                            <li>for dev</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-6">
-        <div class="container-fluid">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="content-area overflow-auto">
-
-                        <h5 class="card-title">
-                            Chat partner: {{ partnerName }}
-                        </h5>
-                        <hr>
-
-                        <ng-container *ngFor="let message of messages$ | async">
-                            <p><small class="text-muted">{{ message.username }}:</small></p>
-                            <p class="card-text">{{ message.content }}</p>
-                            <hr>
-                        </ng-container>
-
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" type="text" class="form-control"
-                            placeholder="message" aria-label="message">
-
-                        <div class="input-group-append">
-                            <button (click)="sendMessage()" [disabled]="!canSend()" class="btn btn-outline-secondary"
-                                type="button">
-                                Send
-                            </button>
+                                <li>for dev</li>
+                            </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-6">
+            <div class="container-fluid">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="content-area overflow-auto">
+
+                            <h5 class="card-title">
+                                Chat partner: {{ partnerName }}
+                            </h5>
+                            <hr>
+
+                            <ng-container *ngFor="let message of messages$ | async">
+                                <p><small class="text-muted">{{ message.partnerName }}:</small></p>
+                                <p class="card-text">{{ message.content }}</p>
+                                <hr>
+                            </ng-container>
+
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" type="text"
+                                class="form-control" placeholder="message" aria-label="message">
+
+                            <div class="input-group-append">
+                                <button (click)="sendMessage()" [disabled]="!canSend()"
+                                    class="btn btn-outline-secondary" type="button">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </div>

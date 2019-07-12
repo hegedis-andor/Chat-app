@@ -7,8 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthGuardService } from '../services/auth-guard.service';
-
 import { ChatRoomsComponent } from './components/chat-rooms/chat-rooms.component';
 import { EditRoomComponent } from './components/edit-room/edit-room.component';
 import { MainwindowComponent } from './components/mainwindow/mainwindow.component';
@@ -16,6 +14,7 @@ import { MessagingAreaComponent } from './components/messaging-area/messaging-ar
 import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component';
 import { PrivateMessageComponent } from './components/private-message/private-message.component';
 import { UsersComponent } from './components/users/users.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},
@@ -29,7 +28,9 @@ const routes: Routes = [
     MainwindowComponent,
     EditRoomComponent,
     MessagingAreaComponent,
-    UsersComponent, PrivateMessageComponent, PasswordDialogComponent
+    UsersComponent,
+    PrivateMessageComponent,
+    PasswordDialogComponent
   ],
   imports: [
     CommonModule,

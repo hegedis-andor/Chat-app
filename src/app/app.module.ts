@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -6,12 +7,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './core/components/home-page/home-page.component';
-import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
+import { HomePageComponent } from './shared/components/home-page/home-page.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+
 
 const routes: Routes = [
   { path: '', component: HomePageComponent}
@@ -20,13 +22,14 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    HomePageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
-    CoreModule,
     AuthModule,
+    NgbModule,
     MainModule,
-    CoreModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
