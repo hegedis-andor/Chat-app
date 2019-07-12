@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class UsersComponent {
   onlineUsers$;
   offlineUsers$;
 
-  constructor(public userService: UserService) { 
+  constructor(public userService: UserService) {
     this.onlineUsers$ = this.userService.getOnlineUsers();
     this.offlineUsers$ = this.userService.getOfflineUsers();
   }

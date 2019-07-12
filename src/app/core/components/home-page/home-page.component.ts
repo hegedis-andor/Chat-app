@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -11,12 +11,12 @@ import { User } from 'src/app/models/user.model';
 })
 export class HomePageComponent {
   user$: Observable<User>;
-  
+
   constructor(private authService: AuthService, private router: Router) {
     this.user$ = authService.user$;
    }
 
   navigateToMainPage() {
-    this.router.navigateByUrl("/main");
+    this.router.navigateByUrl('/main');
   }
 }

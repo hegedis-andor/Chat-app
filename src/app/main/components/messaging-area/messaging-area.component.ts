@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { ChatService } from '../../services/chat.service';
+
 import { ChatroomMessage } from '../../models/chatroom-message.model';
-import { AuthService } from 'src/app/services/auth.service';
 import { Room } from '../../models/room.model';
+import { ChatService } from '../../services/chat.service';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 
 
@@ -12,7 +14,7 @@ import { Room } from '../../models/room.model';
   styleUrls: ['./messaging-area.component.scss']
 })
 export class MessagingAreaComponent {
-  
+
   messages$;
   inputMessage: string;
   room: Room;
@@ -20,7 +22,7 @@ export class MessagingAreaComponent {
   constructor(
     public chatService: ChatService,
     private authService: AuthService
-  ){}
+  ) {}
 
   open(room) {
     this.room = room;
@@ -28,17 +30,18 @@ export class MessagingAreaComponent {
   }
 
   canSendMessage() {
-    let isEmpty = (this.inputMessage == '' || this.inputMessage == undefined);
-    let isRoomSelected = this.room ? true: false;
+    const isEmpty = (this.inputMessage == '' || this.inputMessage == undefined);
+    const isRoomSelected = this.room ? true : false;
 
     return (!isEmpty && isRoomSelected);
   }
 
   sendMessage() {
-    if(!this.canSendMessage())
+    if (!this.canSendMessage()) {
       return;
+    }
 
-    let chatroomMessage: ChatroomMessage = {
+    const chatroomMessage: ChatroomMessage = {
       timestamp: + new Date(),
       userId: this.authService.user.uid,
       username: this.authService.user.displayName,
@@ -46,7 +49,7 @@ export class MessagingAreaComponent {
       roomKey: this.room.key
     };
 
-    this.chatService.create(chatroomMessage); //not checked if it succeeds
+    this.chatService.create(chatroomMessage); // not checked if it succeeds
     this.inputMessage = '';
   }
 

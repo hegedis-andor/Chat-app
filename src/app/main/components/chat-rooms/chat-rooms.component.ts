@@ -1,11 +1,12 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { RoomService } from '../../services/room.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Room } from '../../models/room.model';
 import { Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
+
+import { Room } from '../../models/room.model';
+import { RoomService } from '../../services/room.service';
 import { PasswordDialogComponent } from '../password-dialog/password-dialog.component';
 
 @Component({
@@ -46,10 +47,11 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
     this.validationSubscritption = this.validatePassword(room.key)
       .subscribe(match => {
-        if (match) 
+        if (match) {
           this.openChatRoom.emit(room);
-        else
-          console.log("not match")
+        } else {
+          console.log('not match');
+        }
     });
 
   }
@@ -63,8 +65,9 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
       switchMap(userInput => {
         return this.roomService.getRoomPassword(roomKey).pipe(
           map(password => {
-            if (userInput == password)
+            if (userInput == password) {
               return true;
+            }
 
             return false;
           }));
@@ -83,7 +86,8 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.validationSubscritption) 
+    if (this.validationSubscritption) {
       this.validationSubscritption.unsubscribe();
+    }
   }
 }

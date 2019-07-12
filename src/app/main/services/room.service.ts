@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { AuthService } from 'src/app/services/auth.service';
-import { Room } from '../models/room.model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
+
+import { Room } from '../models/room.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class RoomService {
   }
 
   create(room: Room) {
-    let userid = this.authService.user.uid;
-    let roomKey = this.generateRoomKey(userid, room.name);
+    const userid = this.authService.user.uid;
+    const roomKey = this.generateRoomKey(userid, room.name);
 
     this.db.object('/rooms/' + roomKey).set({
       name: room.name,
@@ -67,12 +68,12 @@ export class RoomService {
   }
 
   getRoomPassword(roomKey: string) {
-    return this.db.object('/rooms/' + roomKey + "/password").snapshotChanges().pipe(
+    return this.db.object('/rooms/' + roomKey + '/password').snapshotChanges().pipe(
       map(changes => changes.payload.val())
     );
   }
 
-  //this is a quick way to generate random room key for db, it is not production ready
+  // this is a quick way to generate random room key for db, it is not production ready
   generateRoomKey(userid: string, roomName: string) {
     return btoa(userid + roomName);
   }

@@ -14,17 +14,18 @@ export class UserService {
     this.setUserPresence();
   }
 
-  
+
   getUserUid() {
     return this.afAuth.auth.currentUser.uid;
   }
 
   setUserPresence() {
-    let uid = this.getUserUid();
-    if (!uid)
+    const uid = this.getUserUid();
+    if (!uid) {
       return;
+    }
 
-    let userStatusDatabaseRef = this.db.database.ref('users/' + uid);
+    const userStatusDatabaseRef = this.db.database.ref('users/' + uid);
 
     const isOfflineForDatabase = {
       state: 'offline'
@@ -34,14 +35,15 @@ export class UserService {
       state: 'online'
     };
 
-    this.db.database.ref('.info/connected').on('value', function (snapshot) {
-      if (snapshot.val() == false)
+    this.db.database.ref('.info/connected').on('value', function(snapshot) {
+      if (snapshot.val() == false) {
         return;
+      }
 
-      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function () {
+      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function() {
         userStatusDatabaseRef.update(isOnlineForDatabase);
-      })
-    })
+      });
+    });
   }
 
   getUsers() {

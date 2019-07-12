@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class LoginComponent  {
 
   constructor(private authService: AuthService) {  }
 
-  //loginWithEmail not yet implemented
+  // loginWithEmail not yet implemented
 
   login() {
     this.authService.googleLogin();

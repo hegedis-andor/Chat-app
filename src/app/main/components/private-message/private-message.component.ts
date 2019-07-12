@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrivateMessageComponent implements OnInit {
 
-  //not yet implemented
+  // not yet implemented
 
   constructor() { }
 

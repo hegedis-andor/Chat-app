@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/database';
+
 import { ChatroomMessage } from '../models/chatroom-message.model';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ChatService {
   constructor(private db: AngularFireDatabase) { }
 
   create(message: ChatroomMessage) {
-    let messageKey = this.generateMessageId(message.timestamp);
+    const messageKey = this.generateMessageId(message.timestamp);
 
     this.db.object('/chatroomMessages/' + messageKey).set({
       content: message.content,

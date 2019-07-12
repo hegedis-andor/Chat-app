@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RoomService } from '../../services/room.service';
-import { Room } from '../../models/room.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { Room } from '../../models/room.model';
+import { RoomService } from '../../services/room.service';
 
 
 @Component({
@@ -14,15 +15,15 @@ import { Subscription } from 'rxjs';
 export class EditRoomComponent implements OnInit, OnDestroy {
 
   chatroomForm: FormGroup;
-  accessTypes = ["public", "private", "protected"];
+  accessTypes = ['public', 'private', 'protected'];
   accessability: string;
-  isFormValid: boolean = true;
+  isFormValid = true;
   isRoomSaved: boolean;
   roomForUpdate: Room;
   roomKey: string;
   showPassword: boolean;
   subscription: Subscription;
-  action: string = 'create';
+  action = 'create';
 
   constructor(
     private roomService: RoomService,
@@ -45,9 +46,9 @@ export class EditRoomComponent implements OnInit, OnDestroy {
       this.subscription = this.roomService.getBy(this.roomKey).subscribe( r => {
         this.roomForUpdate = r;
 
-        this.chatroomForm.controls['roomName'].setValue(this.roomForUpdate['name']);
-        this.chatroomForm.controls['accessibility'].setValue(this.roomForUpdate['accessibility']);
-        this.chatroomForm.controls['password'].setValue(this.roomForUpdate['password']);
+        this.chatroomForm.controls.roomName.setValue(this.roomForUpdate.name);
+        this.chatroomForm.controls.accessibility.setValue(this.roomForUpdate.accessibility);
+        this.chatroomForm.controls.password.setValue(this.roomForUpdate.password);
       });
     }
   }
@@ -59,31 +60,32 @@ export class EditRoomComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if(this.action === 'create')
+    if (this.action === 'create') {
       this.create();
-    else 
+    } else {
       this.update();
+    }
   }
 
   create() {
-    let room = this.initRoomFromForm();
+    const room = this.initRoomFromForm();
 
-    this.roomService.create(room); //Not checked if it succeeds
+    this.roomService.create(room); // Not checked if it succeeds
     this.navigateToMainPage();
   }
 
   update() {
-    let room = this.initRoomFromForm();
+    const room = this.initRoomFromForm();
     room.key = this.roomForUpdate.key;
 
-    this.roomService.update(room);  //Not checked if it succeeds
+    this.roomService.update(room);  // Not checked if it succeeds
     this.navigateToMainPage();
   }
 
   initRoomFromForm(): Room {
-    let room: Room = {};
+    const room: Room = {};
     room.name = this.roomName.value;
-    room.password = (this.password.value === "") ? null : this.password.value;
+    room.password = (this.password.value === '') ? null : this.password.value;
     room.accessibility = this.accessibility.value;
 
     return room;
@@ -91,10 +93,10 @@ export class EditRoomComponent implements OnInit, OnDestroy {
 
   navigateToMainPage() {
     this.showSuccessMessage();
-    
+
     setTimeout(() => {
       this.router.navigateByUrl('/main');
-    }, 1200)
+    }, 1200);
   }
 
   showSuccessMessage() {
@@ -124,8 +126,9 @@ export class EditRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.subscription)
+    if (this.subscription) {
       this.subscription.unsubscribe();
+    }
   }
 
 }

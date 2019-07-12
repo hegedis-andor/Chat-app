@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { User } from '../models/user.model';
 import { switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { UserService } from '../main/services/user.service';
+
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +25,9 @@ export class AuthService {
         if (user) {
           this.user = user;
           return this.db.object('users/' + user.uid).valueChanges();
-        }
-        else
+        } else {
           return of(null);
+        }
       })
     );
   }
