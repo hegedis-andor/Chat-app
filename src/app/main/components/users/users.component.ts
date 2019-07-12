@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'users',
+  selector: 'app-users-bar',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
@@ -17,7 +17,7 @@ export class UsersComponent {
   }
 
   isOtherUser(uid: string) {
-    return this.userService.getUserUid() != uid;
+    return this.userService.getUserUid() !== uid;
   }
 
 }

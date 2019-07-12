@@ -2,15 +2,15 @@
     <div class="row">
 
         <div class="col-3">
-            <users></users>
+            <app-users-bar></app-users-bar>
         </div>
 
         <div class="col-6">
-            <messaging-area #messagingArea></messaging-area>
+            <app-messaging-area #messagingArea></app-messaging-area>
         </div>
 
         <div class="col-3">
-            <chat-rooms (openChatRoom)="messagingArea.open($event)"></chat-rooms>
+            <app-chat-rooms-bar (openChatRoom)="messagingArea.open($event)"></app-chat-rooms-bar>
         </div>
 
     </div>

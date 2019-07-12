@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
-  selector: 'messaging-area',
+  selector: 'app-messaging-area',
   templateUrl: './messaging-area.component.html',
   styleUrls: ['./messaging-area.component.scss']
 })
@@ -30,7 +30,7 @@ export class MessagingAreaComponent {
   }
 
   canSendMessage() {
-    const isEmpty = (this.inputMessage == '' || this.inputMessage == undefined);
+    const isEmpty = (this.inputMessage === '' || this.inputMessage === undefined);
     const isRoomSelected = this.room ? true : false;
 
     return (!isEmpty && isRoomSelected);

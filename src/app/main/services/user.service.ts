@@ -35,12 +35,12 @@ export class UserService {
       state: 'online'
     };
 
-    this.db.database.ref('.info/connected').on('value', function(snapshot) {
-      if (snapshot.val() == false) {
+    this.db.database.ref('.info/connected').on('value', snapshot => {
+      if (snapshot.val() === false) {
         return;
       }
 
-      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function() {
+      userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then( () => {
         userStatusDatabaseRef.update(isOnlineForDatabase);
       });
     });

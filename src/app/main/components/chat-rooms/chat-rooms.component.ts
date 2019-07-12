@@ -10,7 +10,7 @@ import { RoomService } from '../../services/room.service';
 import { PasswordDialogComponent } from '../password-dialog/password-dialog.component';
 
 @Component({
-  selector: 'chat-rooms',
+  selector: 'app-chat-rooms-bar',
   templateUrl: './chat-rooms.component.html',
   styleUrls: ['./chat-rooms.component.scss']
 })
@@ -57,7 +57,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   needPassword(room: Room, uid: string): boolean {
-    return (room.accessibility == 'protected') && !(room.createdBy == uid);
+    return (room.accessibility === 'protected') && !(room.createdBy === uid);
   }
 
   validatePassword(roomKey: string): Observable<boolean> {
@@ -65,7 +65,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
       switchMap(userInput => {
         return this.roomService.getRoomPassword(roomKey).pipe(
           map(password => {
-            if (userInput == password) {
+            if (userInput === password) {
               return true;
             }
 
