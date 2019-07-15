@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class SignupComponent {
   signUpForm: FormGroup;
-  errorMessage: string;
+  serverErrorMessage: string;
 
   constructor(private authService: AuthService) {
     this.signUpForm = new FormGroup({
@@ -21,7 +21,7 @@ export class SignupComponent {
 
   signUp() {
     this.authService.signUpWithEmailAndPassword(this.username.value, this.email.value, this.password.value)
-      .catch( (error: Error) => this.errorMessage = error.message );
+      .catch( (error: Error) => this.serverErrorMessage = error.message );
   }
 
   get username() {

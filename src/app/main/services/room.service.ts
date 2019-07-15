@@ -22,9 +22,8 @@ export class RoomService {
 
   create(room: Room) {
     const userid = this.authService.user.uid;
-    const roomKey = this.generateRoomKey(userid, room.name);
 
-    this.db.object('/rooms/' + roomKey).set({
+    this.db.list('/rooms/').push({
       name: room.name,
       accessibility: room.accessibility,
       password: room.password,
@@ -48,7 +47,7 @@ export class RoomService {
 
   update(room: Room) {
     if (room.accessibility === 'protected') {
-      this.db.object('/rooms/' + room.key).update({
+      this.db.list('/rooms/').push({
         name: room.name,
         accessibility: room.accessibility,
         password: room.password
@@ -57,13 +56,13 @@ export class RoomService {
       return;
     }
 
-    this.db.object('/rooms/' + room.key).update({
+    this.db.list('/rooms/' + room.key).push({
       name: room.name,
       accessibility: room.accessibility,
     });
   }
 
-  delete(roomKey: string) {
+  deleteBy(roomKey: string) {
     this.roomsRef.remove(roomKey);
   }
 
@@ -71,11 +70,6 @@ export class RoomService {
     return this.db.object('/rooms/' + roomKey + '/password').snapshotChanges().pipe(
       map(changes => changes.payload.val())
     );
-  }
-
-  // this is a quick way to generate random room key for db, it is not production ready
-  generateRoomKey(userid: string, roomName: string) {
-    return btoa(userid + roomName);
   }
 
 }

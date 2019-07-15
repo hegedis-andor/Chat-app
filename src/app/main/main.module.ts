@@ -14,7 +14,7 @@ import { MessagingAreaComponent } from './components/messaging-area/messaging-ar
 import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component';
 import { PrivateMessageComponent } from '../message/components/private-message/private-message.component';
 import { UsersComponent } from './components/users/users.component';
-import { AuthGuardService } from './services/auth-guard.service';
+import { AuthGuardService } from '../shared/services/auth-guard.service';
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},

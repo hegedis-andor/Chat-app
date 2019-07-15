@@ -34,13 +34,14 @@ export class AuthService {
 
   // it is not checked yet if it returns with error
   async signUpWithEmailAndPassword(username: string, email: string, password: string) {
-    const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-
     const user = this.afAuth.auth.currentUser;
-    user.updateProfile({
-      displayName: username
-    }).then( _ => this.updateUserData(credential.user));
 
+    return await this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(credential => {
+      user.updateProfile({
+        displayName: username
+      })
+      .then(_ => this.updateUserData(credential.user));
+    });
   }
 
   async loginWithEmailAndPassword(email: string, password: string) {

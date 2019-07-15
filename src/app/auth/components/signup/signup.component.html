@@ -35,7 +35,7 @@
                 </div>
 
                 <div *ngIf="errorMessage" class="alert alert-danger">
-                    <div >{{ errorMessage }}</div>
+                    <div >{{ serverErrorMessage }}</div>
                 </div>
 
                 <button type="submit" [disabled]="signUpForm.invalid" class="btn btn-primary">Sign Up</button>

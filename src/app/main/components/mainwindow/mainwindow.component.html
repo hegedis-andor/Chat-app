@@ -1,15 +1,15 @@
 <div class="main-window">
-    <div class="row">
+    <div class="row  d-flex">
 
-        <div class="col-3">
+        <div class="col-sm-12 col-md-5 col-lg-3">
             <app-users-bar></app-users-bar>
         </div>
 
-        <div class="col-6">
+        <div class="col-sm-12 col-md-7 col-lg-6">
             <app-messaging-area #messagingArea></app-messaging-area>
         </div>
 
-        <div class="col-3">
+        <div class="col-sm-12 col-md-12 col-lg-3">
             <app-chat-rooms-bar (openChatRoom)="messagingArea.open($event)"></app-chat-rooms-bar>
         </div>
 

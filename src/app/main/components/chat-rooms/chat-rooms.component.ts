@@ -31,8 +31,8 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     this.rooms$ = this.roomService.getAll();
   }
 
-  delete(roomKey) {
-    this.roomService.delete(roomKey);
+  deleteBy(roomKey) {
+    this.roomService.deleteBy(roomKey);
   }
 
   add() {
