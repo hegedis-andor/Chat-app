@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { PrivateMessage } from '../../models/private-message.model';
-import { PresenceService } from './../../../shared/services/presence.service';
-import { PrivateMessageService } from './../../services/private-message.service';
+import { PresenceService } from '../../../shared/services/presence.service';
+import { PrivateMessageService } from '../../services/private-message.service';
 
 @Component({
   selector: 'app-private-message',
@@ -52,6 +52,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
     const privateMessage: PrivateMessage = {
       timestamp: + new Date(),
       senderUid: this.authService.user.uid,
+      senderName: this.authService.user.displayName,
       partnerUid: this.partnerUid,
       partnerName: this.partnerName,
       content: this.inputMessage,

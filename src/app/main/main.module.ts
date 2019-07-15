@@ -12,14 +12,13 @@ import { EditRoomComponent } from './components/edit-room/edit-room.component';
 import { MainwindowComponent } from './components/mainwindow/mainwindow.component';
 import { MessagingAreaComponent } from './components/messaging-area/messaging-area.component';
 import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component';
-import { PrivateMessageComponent } from './components/private-message/private-message.component';
+import { PrivateMessageComponent } from '../message/components/private-message/private-message.component';
 import { UsersComponent } from './components/users/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},
   { path: 'edit', component: EditRoomComponent, canActivate: [AuthGuardService] },
-  { path: 'private/:partnerName/:partnerUid', component: PrivateMessageComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({

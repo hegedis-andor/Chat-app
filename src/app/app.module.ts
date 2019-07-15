@@ -1,4 +1,4 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MessageModule } from './message/message.module';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -6,6 +6,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
     AuthModule,
     NgbModule,
     MainModule,
+    MessageModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

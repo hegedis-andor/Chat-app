@@ -10,7 +10,7 @@
                                 <li>Private chat partners:</li>
                                 <hr>
 
-                                <li>for dev</li>
+                                <li>Not yet implemented</li>
                             </ul>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                             <hr>
 
                             <ng-container *ngFor="let message of messages$ | async">
-                                <p><small class="text-muted">{{ message.partnerName }}:</small></p>
+                                <p><small class="text-muted">{{ message.senderName }}:</small></p>
                                 <p class="card-text">{{ message.content }}</p>
                                 <hr>
                             </ng-container>
