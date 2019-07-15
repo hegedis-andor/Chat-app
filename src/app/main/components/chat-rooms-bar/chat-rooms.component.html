@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-body">
             <div class="content-area overflow-auto">
-                <h5>Chat Rooms</h5> <button (click)="add()" class="btn btn-secondary">Add room</button>
+                <h5>Chat Rooms</h5> <button (click)="add()" class="btn btn-outline-primary">Add room</button>
 
                 <ul class="nav flex-column">
 
@@ -33,6 +33,9 @@
                                 <a (click)="open(room)" class="dropdown-item">
                                     Open
                                 </a>
+                                <a *ngIf="room.accessibility === 'private'" class="dropdown-item">
+                                    Add user
+                                </a>
                                 <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">
                                     Edit room
                                 </a>
@@ -47,7 +50,7 @@
                             <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
                                 class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                
+
                                 <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
                                     *ngIf="room.accessibility === 'protected'">
                                     lock

@@ -48,8 +48,8 @@ export class MessagingAreaComponent implements OnInit, OnDestroy {
 
     const chatroomMessage: ChatroomMessage = {
       timestamp: + new Date(),
-      userId: this.authService.user.uid,
-      username: this.authService.user.displayName,
+      userId: this.user.uid,
+      username: this.user.displayName,
       content: this.inputMessage,
       roomKey: this.room.key
     };
