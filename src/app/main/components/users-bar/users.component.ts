@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
-import { User } from './../../../shared/models/user.model';
-import { PresenceService } from './../../../shared/services/presence.service';
+import { User } from '../../../shared/models/user.model';
+import { PresenceService } from '../../../shared/services/presence.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 

@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
-import { DialogService } from './../../services/dialog.service';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'app-chat-rooms-bar',

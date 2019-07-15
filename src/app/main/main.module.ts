@@ -7,13 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatIconModule} from '@angular/material/icon';
 
-import { ChatRoomsComponent } from './components/chat-rooms/chat-rooms.component';
+import { ChatRoomsComponent } from './components/chat-rooms-bar/chat-rooms.component';
 import { EditRoomComponent } from './components/edit-room/edit-room.component';
-import { MainwindowComponent } from './components/mainwindow/mainwindow.component';
+import { MainwindowComponent } from './components/main-window/mainwindow.component';
 import { MessagingAreaComponent } from './components/messaging-area/messaging-area.component';
 import { PasswordDialogComponent } from './components/dialogs/password-dialog/password-dialog.component';
-import { UsersComponent } from './components/users/users.component';
+import { UsersComponent } from './components/users-bar/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 
@@ -41,6 +42,7 @@ const routes: Routes = [
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatSnackBarModule,
     RouterModule.forChild(routes)
   ],

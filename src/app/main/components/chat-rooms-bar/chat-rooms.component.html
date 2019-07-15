@@ -2,10 +2,9 @@
     <div class="card mb-3">
         <div class="card-body">
             <div class="content-area overflow-auto">
+                <h5>Chat Rooms</h5> <button (click)="add()" class="btn btn-secondary">Add room</button>
 
                 <ul class="nav flex-column">
-
-                    <li><button (click)="add()" class="btn btn-secondary">Add room</button></li>
 
                     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
@@ -14,6 +13,20 @@
                         <ng-template #creatorOfRoom>
                             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
+                                    *ngIf="room.accessibility === 'protected'">
+                                    lock
+                                </mat-icon>
+                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
+                                    *ngIf="room.accessibility === 'public'">
+                                    lock_open
+                                </mat-icon>
+                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
+                                    *ngIf="room.accessibility === 'private'">
+                                    visibility_off
+                                </mat-icon>
+
                                 {{ room.name }}
                             </a>
                             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -34,6 +47,16 @@
                             <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
                                 class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
+                                
+                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
+                                    *ngIf="room.accessibility === 'protected'">
+                                    lock
+                                </mat-icon>
+                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
+                                    *ngIf="room.accessibility === 'public'">
+                                    lock_open
+                                </mat-icon>
+
                                 {{ room.name }}
                             </a>
 
