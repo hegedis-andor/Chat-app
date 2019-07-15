@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="content-area overflow-auto">
+                <h6> Private chat partners: </h6>
+                <ul class="nav flex-column">
+                    <ng-container *ngFor="let partner of partners$ | async">
+                        <li>
+                            {{ partner.name }}
+                            <a [routerLink]="['/privateMessage', partner.name, partner.uid]">
+                                send
+                            </a>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

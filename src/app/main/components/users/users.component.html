@@ -4,21 +4,29 @@
             <div class="content-area overflow-auto">
 
                 <ul class="nav flex-column">
-                    <li>Online users:</li>
+                    <h5>Online users:</h5>
                     <hr>
-                    
+
                     <ng-container *ngFor=" let onlineUser of onlineUsers$ | async ">
-                        <li> {{ onlineUser.displayName }} <a *ngIf="isOtherUser(onlineUser.uid)" [routerLink]="['/privateMessage', onlineUser.displayName, onlineUser.uid]">send</a></li>
+                        <li>
+                            {{ onlineUser.displayName }}
+                            <a *ngIf="isOtherUser(onlineUser.uid)"
+                                [routerLink]="['/privateMessage', onlineUser.displayName, onlineUser.uid]">
+                                send
+                            </a>
+                        </li>
                     </ng-container>
-                    
+
                 </ul>
 
                 <ul class="nav flex-column margin-top">
-                    <li>Offline users:</li>
+                    <h6>Offline users:</h6>
                     <hr>
 
                     <ng-container *ngFor=" let offlineUser of offlineUsers$ | async ">
-                        <li> {{ offlineUser.displayName }} <a *ngIf="isOtherUser(offlineUser.uid)" [routerLink]="['/privateMessage', offlineUser.displayName, offlineUser.uid]">send</a></li>
+                        <li> {{ offlineUser.displayName }} <a *ngIf="isOtherUser(offlineUser.uid)"
+                                [routerLink]="['/privateMessage', offlineUser.displayName, offlineUser.uid]">send</a>
+                        </li>
                     </ng-container>
                 </ul>
 

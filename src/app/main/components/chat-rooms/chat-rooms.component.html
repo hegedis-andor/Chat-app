@@ -9,7 +9,7 @@
 
                     <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
 
-                        <div *ngIf="authService.user.uid === room.createdBy; then creatorOfRoom else user"></div>
+                        <div *ngIf="user.uid === room.createdBy; then creatorOfRoom else otherUser"></div>
 
                         <ng-template #creatorOfRoom>
                             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
@@ -23,14 +23,14 @@
                                 <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">
                                     Edit room
                                 </a>
-                                <a class="dropdown-item" (click)="delete(room.key)">
+                                <a class="dropdown-item" (click)="deleteBy(room.key)">
                                     Delete room
                                 </a>
                             </div>
                             <hr>
                         </ng-template>
 
-                        <ng-template #user>
+                        <ng-template #otherUser>
                             <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
                                 class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">

@@ -34,8 +34,8 @@
                     <div *ngIf="password.errors.required">Password is required.</div>
                 </div>
 
-                <div *ngIf="errorMessage" class="alert alert-danger">
-                    <div >{{ serverErrorMessage }}</div>
+                <div *ngIf="serverErrorMessage" class="alert alert-danger">
+                    <div>{{ serverErrorMessage }}</div>
                 </div>
 
                 <button type="submit" [disabled]="signUpForm.invalid" class="btn btn-primary">Sign Up</button>

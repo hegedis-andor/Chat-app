@@ -1,8 +1,8 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../shared/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   loginFailed: boolean;
+  googleLoginFailed: boolean;
 
   constructor(
     private authService: AuthService,
@@ -24,17 +25,13 @@ export class LoginComponent {
   }
 
   loginWithEmailAndPassword() {
-    this.authService.loginWithEmailAndPassword(this.email.value, this.password.value).then( _ => {
+    this.authService.loginWithEmailAndPassword(this.email.value, this.password.value).then(_ => {
       this.router.navigateByUrl('/main');
-    }).catch( error => {
-      this.loginFailed = true;
-    });
-
-
+    }).catch(_ => this.loginFailed = true);
   }
 
   loginWithGoogle() {
-    this.authService.googleLogin();
+    this.authService.googleLogin().catch(_ => this.googleLoginFailed = true);
   }
 
   get email() {

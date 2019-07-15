@@ -1,4 +1,3 @@
-import { MessageModule } from './message/message.module';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -12,12 +11,13 @@ import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
+import { MessageModule } from './message/message.module';
 import { HomePageComponent } from './shared/components/home-page/home-page.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent}
+  { path: '', component: HomePageComponent }
 ];
 
 @NgModule({

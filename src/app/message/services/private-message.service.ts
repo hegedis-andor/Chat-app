@@ -12,7 +12,7 @@ export class PrivateMessageService {
 
   create(message: PrivateMessage) {
     const messageNode = this.getPartnersId(message.senderUid, message.partnerUid);
-    this.db.list('/privateMessages/' + messageNode).push(message);
+    return this.db.list('/privateMessages/' + messageNode).push(message);
   }
 
   getAllBy(senderUid: string, partnerUid: string) {

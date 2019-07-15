@@ -21,7 +21,7 @@ export class SignupComponent {
 
   signUp() {
     this.authService.signUpWithEmailAndPassword(this.username.value, this.email.value, this.password.value)
-      .catch( (error: Error) => this.serverErrorMessage = error.message );
+      .catch((error: Error) => this.serverErrorMessage = error.message);
   }
 
   get username() {

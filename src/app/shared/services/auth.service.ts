@@ -13,7 +13,6 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
   user$: Observable<User>;
-  user: User;
 
   constructor(
     private db: AngularFireDatabase,
@@ -23,7 +22,6 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          this.user = user;
           return this.db.object('users/' + user.uid).valueChanges();
         } else {
           return of(null);
@@ -32,11 +30,9 @@ export class AuthService {
     );
   }
 
-  // it is not checked yet if it returns with error
   async signUpWithEmailAndPassword(username: string, email: string, password: string) {
-    const user = this.afAuth.auth.currentUser;
-
     return await this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(credential => {
+      const user = this.afAuth.auth.currentUser;
       user.updateProfile({
         displayName: username
       })

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,10 +12,11 @@ import { ChatRoomsComponent } from './components/chat-rooms/chat-rooms.component
 import { EditRoomComponent } from './components/edit-room/edit-room.component';
 import { MainwindowComponent } from './components/mainwindow/mainwindow.component';
 import { MessagingAreaComponent } from './components/messaging-area/messaging-area.component';
-import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component';
-import { PrivateMessageComponent } from '../message/components/private-message/private-message.component';
+import { PasswordDialogComponent } from './components/dialogs/password-dialog/password-dialog.component';
 import { UsersComponent } from './components/users/users.component';
-import { AuthGuardService } from '../shared/services/auth-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+
 
 const routes: Routes = [
   { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},
@@ -28,8 +30,8 @@ const routes: Routes = [
     EditRoomComponent,
     MessagingAreaComponent,
     UsersComponent,
-    PrivateMessageComponent,
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -39,12 +41,14 @@ const routes: Routes = [
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
     RouterModule.forChild(routes)
   ],
   exports: [
   ],
   entryComponents: [
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    ConfirmDialogComponent
   ]
 })
 export class MainModule { }

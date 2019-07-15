@@ -1,5 +1,7 @@
+import { Subscription } from 'rxjs';
+import { User } from './../../../shared/models/user.model';
 import { PresenceService } from './../../../shared/services/presence.service';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { UserService } from '../../services/user.service';
@@ -9,9 +11,12 @@ import { UserService } from '../../services/user.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit, OnDestroy {
+
   onlineUsers$;
   offlineUsers$;
+  user: User;
+  userSubscription: Subscription;
 
   constructor(
     private userService: UserService,
@@ -23,8 +28,17 @@ export class UsersComponent {
     this.offlineUsers$ = this.userService.getOfflineUsers();
   }
 
-  isOtherUser(uid: string) {
-    return this.authService.user.uid !== uid;
+  ngOnInit(): void {
+    this.userSubscription = this.authService.user$.subscribe(user => this.user = user);
   }
 
+  isOtherUser(uid: string) {
+    return this.user.uid !== uid;
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
 }

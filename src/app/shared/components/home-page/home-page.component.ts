@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class HomePageComponent {
   user$: Observable<User>;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(authService: AuthService, private router: Router) {
     this.user$ = authService.user$;
    }
 

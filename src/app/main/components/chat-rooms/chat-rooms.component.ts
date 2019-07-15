@@ -1,13 +1,13 @@
+import { User } from 'src/app/shared/models/user.model';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
-import { PasswordDialogComponent } from '../password-dialog/password-dialog.component';
+import { DialogService } from './../../services/dialog.service';
 
 @Component({
   selector: 'app-chat-rooms-bar',
@@ -17,77 +17,86 @@ import { PasswordDialogComponent } from '../password-dialog/password-dialog.comp
 export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   rooms$: Observable<Room[]>;
-  validationSubscritption: Subscription;
+  passwordValidationSubscription: Subscription;
+  confirmDialogSubscription: Subscription;
+  userSubscription: Subscription;
+  user: User;
   @Output() openChatRoom: EventEmitter<Room> = new EventEmitter();
 
   constructor(
     private roomService: RoomService,
     private router: Router,
     public authService: AuthService,
-    public dialog: MatDialog
+    private dialogService: DialogService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.rooms$ = this.roomService.getAll();
+    this.userSubscription = this.authService.user$.subscribe(user => this.user = user);
   }
 
   deleteBy(roomKey) {
-    this.roomService.deleteBy(roomKey);
+    this.confirmDialogSubscription = this.dialogService.openConfirmDialog()
+      .subscribe((answer: boolean) => {
+        if (answer) {
+          this.roomService.deleteBy(roomKey);
+        }
+
+        return;
+      });
   }
 
   add() {
     this.router.navigateByUrl('/edit');
   }
 
+  // this was a mistake going this way (opening a room by passing data to sibling component via parent)
+  // it makes harder to understand the code, and the user cannot bookmark the chatroom
+  // i have no time left for refactoring this
   open(room: Room): void {
-    if (!this.needPassword(room, this.authService.user.uid)) {
+
+    if (!this.needPassword(room, this.user.uid)) {
       this.openChatRoom.emit(room);
       return;
     }
 
-    this.validationSubscritption = this.validatePassword(room.key)
+    this.passwordValidationSubscription = this.dialogService.validatePassword(room.key)
       .subscribe(match => {
         if (match) {
           this.openChatRoom.emit(room);
         } else {
-          console.log('not match');
+          this.openSnackBar();
         }
-    });
+      });
 
   }
 
   needPassword(room: Room, uid: string): boolean {
-    return (room.accessibility === 'protected') && !(room.createdBy === uid);
+    return (room.accessibility === 'protected') && !this.isOwner(room.createdBy, uid);
   }
 
-  validatePassword(roomKey: string): Observable<boolean> {
-    return this.getPasswordFromDialog().pipe(
-      switchMap(userInput => {
-        return this.roomService.getRoomPassword(roomKey).pipe(
-          map(password => {
-            if (userInput === password) {
-              return true;
-            }
-
-            return false;
-          }));
-      })
-    );
+  isOwner(createdBy: string, uid: string): boolean {
+    return createdBy === uid;
   }
 
-
-
-  getPasswordFromDialog() {
-    const dialogRef = this.dialog.open(PasswordDialogComponent, {
-      width: '30rem',
+  openSnackBar() {
+    this.snackBar.open('Wrong password!', 'Dismiss', {
+      duration: 2000
     });
-
-    return dialogRef.afterClosed();
   }
 
   ngOnDestroy(): void {
-    if (this.validationSubscritption) {
-      this.validationSubscritption.unsubscribe();
+    if (this.passwordValidationSubscription) {
+      this.passwordValidationSubscription.unsubscribe();
+    }
+
+    if (this.confirmDialogSubscription) {
+      this.confirmDialogSubscription.unsubscribe();
+    }
+
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 }

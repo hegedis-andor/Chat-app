@@ -15,20 +15,12 @@ export class RoomService {
 
   constructor(
     private db: AngularFireDatabase,
-    private authService: AuthService,
   ) {
     this.roomsRef = db.list('rooms');
   }
 
   create(room: Room) {
-    const userid = this.authService.user.uid;
-
-    this.db.list('/rooms/').push({
-      name: room.name,
-      accessibility: room.accessibility,
-      password: room.password,
-      createdBy: userid,
-    });
+    this.db.list('/rooms/').push(room);
   }
 
   getAll() {
@@ -47,7 +39,7 @@ export class RoomService {
 
   update(room: Room) {
     if (room.accessibility === 'protected') {
-      this.db.list('/rooms/').push({
+      this.db.object('/rooms/' + room.key).update({
         name: room.name,
         accessibility: room.accessibility,
         password: room.password
@@ -56,7 +48,7 @@ export class RoomService {
       return;
     }
 
-    this.db.list('/rooms/' + room.key).push({
+    this.db.object('/rooms/' + room.key).update({
       name: room.name,
       accessibility: room.accessibility,
     });

@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="content-area overflow-auto">
 
-                <h5 class="card-title">        
+                <h5 class="card-title">
                     Room name: <div *ngIf="room; then roomOpened else noRoomOpened"> </div>
                     <ng-template #roomOpened>{{room.name}}</ng-template>
                     <ng-template #noRoomOpened> Open a room on the sidebar</ng-template>
@@ -12,7 +12,7 @@
                 <hr>
 
                 <ng-container *ngFor="let message of messages$ | async">
-                    <p ><small class="text-muted">{{ message.username }}:</small></p>
+                    <p><small class="text-muted">{{ message.username }}:</small></p>
                     <p class="card-text">{{ message.content }}</p>
                     <hr>
                 </ng-container>
@@ -20,11 +20,12 @@
             </div>
 
             <div class="input-group mb-3">
-                <input [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" type="text" class="form-control" placeholder="message"
-                    aria-label="message">
-                    
+                <input [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" type="text" class="form-control"
+                    placeholder="message" aria-label="message">
+
                 <div class="input-group-append">
-                    <button (click)="sendMessage()" [disabled]="!canSendMessage()" class="btn btn-outline-secondary" type="button">
+                    <button (click)="sendMessage()" [disabled]="!canSendMessage()" class="btn btn-outline-secondary"
+                        type="button">
                         Send
                     </button>
                 </div>
