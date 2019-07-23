@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="chatroomForm" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="roomName">Name of the Room</label>
+          <input
+            formControlName="roomName"
+            class="form-control"
+            id="roomName"
+            name="roomName"
+            required
+          />
+        </div>
+        <div
+          *ngIf="roomName.touched && roomName.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="roomName.errors.minlength">
+            Room name should be minimum of 4 character.
+          </div>
+          <div *ngIf="roomName.errors.required">Room name is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="accessability">Accessibility </label>
+
+          <select
+            formControlName="accessibility"
+            class="form-control"
+            id="accessability"
+          >
+            <option
+              *ngFor="let accessType of accessTypes"
+              [ngValue]="accessType"
+            >
+              {{ accessType }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="chatroomForm.value.accessibility == 'protected'">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              formControlName="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              id="password"
+            />
+          </div>
+          <div class="form-check">
+            <input
+              (click)="toggle()"
+              type="checkbox"
+              class="form-check-input"
+              id="passwordToggle"
+            />
+            <label class="form-check-label" for="passwordToggle"
+              >Show password</label
+            >
+          </div>
+        </div>
+
+        <div *ngIf="!isFormValid" class="alert alert-danger">
+          <div>Please fill out the form.</div>
+        </div>
+
+        <div *ngIf="isRoomSaved" class="alert alert-success">
+          <div>Room is successfully saved.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

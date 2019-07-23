@@ -1,0 +1,5 @@
+{
+    "editor.formatOnSave": true,
+    "editor.fontSize": 17,
+    "prettier.singleQuote": true
+}

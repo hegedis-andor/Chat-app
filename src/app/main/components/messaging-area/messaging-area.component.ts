@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ChatService } from '../../services/chat-room.service';
 import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { Room } from '../../models/room.model';
+import { ChatService } from '../../services/chat-room.service';
 import { User } from './../../../shared/models/user.model';
 
 @Component({
@@ -13,7 +12,6 @@ import { User } from './../../../shared/models/user.model';
   styleUrls: ['./messaging-area.component.scss']
 })
 export class MessagingAreaComponent implements OnInit, OnDestroy {
-
   messages$;
   inputMessage: string;
   room: Room;
@@ -23,22 +21,24 @@ export class MessagingAreaComponent implements OnInit, OnDestroy {
   constructor(
     public chatService: ChatService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user$.subscribe(user => this.user = user);
+    this.userSubscription = this.authService.user$.subscribe(
+      user => (this.user = user)
+    );
   }
 
-  open(room) {
+  open(room: Room) {
     this.room = room;
     this.messages$ = this.chatService.getBy(this.room.key);
   }
 
   canSendMessage(): boolean {
-    const isEmpty = (this.inputMessage === '' || this.inputMessage === undefined);
+    const isEmpty = this.inputMessage === '' || this.inputMessage === undefined;
     const isRoomSelected = this.room ? true : false;
 
-    return (!isEmpty && isRoomSelected);
+    return !isEmpty && isRoomSelected;
   }
 
   sendMessage() {
@@ -47,7 +47,7 @@ export class MessagingAreaComponent implements OnInit, OnDestroy {
     }
 
     const chatroomMessage: ChatroomMessage = {
-      timestamp: + new Date(),
+      timestamp: +new Date(),
       userId: this.user.uid,
       username: this.user.displayName,
       content: this.inputMessage,
@@ -63,6 +63,4 @@ export class MessagingAreaComponent implements OnInit, OnDestroy {
       this.userSubscription.unsubscribe();
     }
   }
-
-
 }

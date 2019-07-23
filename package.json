@@ -26,6 +26,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@ng-bootstrap/ng-bootstrap": "^5.0.0-rc.1",
+    "@ngrx/store": "^8.1.0",
     "bootstrap": "^4.3.1",
     "firebase": "^6.2.4",
     "rxjs": "~6.4.0",

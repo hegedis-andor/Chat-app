@@ -12,7 +12,6 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-
   onlineUsers$;
   offlineUsers$;
   user: User;
@@ -21,15 +20,17 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private presenceService: PresenceService) {
-
+    private presenceService: PresenceService
+  ) {
     this.presenceService.setUserPresence();
     this.onlineUsers$ = this.userService.getOnlineUsers();
     this.offlineUsers$ = this.userService.getOfflineUsers();
   }
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user$.subscribe(user => this.user = user);
+    this.userSubscription = this.authService.user$.subscribe(
+      user => (this.user = user)
+    );
   }
 
   isOtherUser(uid: string) {

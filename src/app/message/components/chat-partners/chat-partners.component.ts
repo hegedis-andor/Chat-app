@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ChatPartnerService } from './../../services/chat-partner.service';
@@ -10,14 +10,13 @@ import { ChatPartnerService } from './../../services/chat-partner.service';
   styleUrls: ['./chat-partners.component.scss']
 })
 export class ChatPartnersComponent implements OnInit, OnDestroy {
-
   partners$;
   userSubscription: Subscription;
 
   constructor(
     private partnerService: ChatPartnerService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userSubscription = this.authService.user$.subscribe(user => {
@@ -30,5 +29,4 @@ export class ChatPartnersComponent implements OnInit, OnDestroy {
       this.userSubscription.unsubscribe();
     }
   }
-
 }

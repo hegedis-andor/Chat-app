@@ -9,11 +9,11 @@ import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
 
 @Component({
-  selector: 'app-newroom',
-  templateUrl: './edit-room.component.html',
-  styleUrls: ['./edit-room.component.scss']
+  selector: 'app-edit-room-overlay',
+  templateUrl: './edit-room-overlay.component.html',
+  styleUrls: ['./edit-room-overlay.component.scss']
 })
-export class EditRoomComponent implements OnInit, OnDestroy {
+export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   accessTypes = ['public', 'private', 'protected'];
 
   chatroomForm: FormGroup;

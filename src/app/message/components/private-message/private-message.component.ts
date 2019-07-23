@@ -16,7 +16,6 @@ import { PrivateMessageService } from '../../services/private-message.service';
   styleUrls: ['./private-message.component.scss']
 })
 export class PrivateMessageComponent implements OnInit, OnDestroy {
-
   messages$;
   serverErrorMessage;
   inputMessage: string;
@@ -51,17 +50,19 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
         this.user = user;
 
         this.partnerService.addPartner(this.user.uid, this.partner);
-        this.messages$ = this.privateMessageService.getAllBy(this.user.uid, this.partner.uid);
+        this.messages$ = this.privateMessageService.getAllBy(
+          this.user.uid,
+          this.partner.uid
+        );
       });
-
     });
   }
 
   canSend() {
-    const isEmpty = (this.inputMessage === '' || this.inputMessage === undefined);
-    const isPartnerSelected = (this.partner.uid !== '0') ? true : false;
+    const isEmpty = this.inputMessage === '' || this.inputMessage === undefined;
+    const isPartnerSelected = this.partner.uid !== '0' ? true : false;
 
-    return (!isEmpty && isPartnerSelected);
+    return !isEmpty && isPartnerSelected;
   }
 
   sendMessage() {
@@ -70,12 +71,12 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
     }
 
     const privateMessage: PrivateMessage = {
-      timestamp: + new Date(),
+      timestamp: +new Date(),
       senderUid: this.user.uid,
       senderName: this.user.displayName,
       partnerUid: this.partner.uid,
       partnerName: this.partner.name,
-      content: this.inputMessage,
+      content: this.inputMessage
     };
 
     this.privateMessageService.create(privateMessage); // not checked if it succeeded
@@ -91,5 +92,4 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
       this.paramSubscription.unsubscribe();
     }
   }
-
 }

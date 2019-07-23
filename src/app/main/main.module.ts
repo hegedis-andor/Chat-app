@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 import { ChatRoomsComponent } from './components/chat-rooms-bar/chat-rooms.component';
 import { EditRoomComponent } from './components/edit-room/edit-room.component';
@@ -17,11 +19,20 @@ import { PasswordDialogComponent } from './components/dialogs/password-dialog/pa
 import { UsersComponent } from './components/users-bar/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
-
+import { EditRoomOverlayComponent } from './components/edit-room-overlay/edit-room-overlay.component';
+import { EditRoomOverlayService } from './services/edit-room-overlay.service';
 
 const routes: Routes = [
-  { path: 'main', component: MainwindowComponent, canActivate: [AuthGuardService]},
-  { path: 'edit', component: EditRoomComponent, canActivate: [AuthGuardService] },
+  {
+    path: 'main',
+    component: MainwindowComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'edit',
+    component: EditRoomComponent,
+    canActivate: [AuthGuardService]
+  }
 ];
 
 @NgModule({
@@ -33,6 +44,7 @@ const routes: Routes = [
     UsersComponent,
     PasswordDialogComponent,
     ConfirmDialogComponent,
+    EditRoomOverlayComponent
   ],
   imports: [
     CommonModule,
@@ -44,13 +56,16 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
+    OverlayModule,
+    PortalModule,
     RouterModule.forChild(routes)
   ],
-  exports: [
-  ],
+  providers: [EditRoomOverlayService],
+  exports: [],
   entryComponents: [
     PasswordDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    EditRoomOverlayComponent
   ]
 })
-export class MainModule { }
+export class MainModule {}
