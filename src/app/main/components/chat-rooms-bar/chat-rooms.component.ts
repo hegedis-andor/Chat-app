@@ -4,8 +4,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
-  InjectionToken
+  Output
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -60,25 +59,13 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
       });
   }
 
-  add() {
-    // this.router.navigateByUrl('/edit');
-
-    const overlayRef = this.editRoomOverlayService.openDialog(
-      new ComponentPortal(EditRoomOverlayComponent)
+  manageRoom(room?: Room) {
+    this.editRoomOverlayService.openDialog(
+      EditRoomOverlayComponent,
+      room || null
     );
   }
 
-  createPortalInjector(roomToInject: Room) {
-    const injectionTokens = new WeakMap();
-    injectionTokens.set(
-      new InjectionToken<Room>('ROOM_DIALOG_DATA'),
-      roomToInject
-    );
-  }
-
-  // this was a mistake going this way (opening a room by passing data to sibling component via parent)
-  // it makes harder to understand the code, and the user cannot bookmark the chatroom
-  // i have no time left for refactoring this
   open(room: Room): void {
     if (!this.needPassword(room, this.user.uid)) {
       this.openChatRoom.emit(room);

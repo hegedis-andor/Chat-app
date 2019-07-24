@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,9 @@ import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
+import { ROOM_OVERLAY_DATA } from '../../room-overlay.tokens';
+import { isEmpty } from 'rxjs/operators';
+import { EditRoomOverlayRef } from '../../edit-room-overlayref';
 
 @Component({
   selector: 'app-edit-room-overlay',
@@ -20,55 +23,42 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   accessability: string;
   isFormValid = true;
   isRoomSaved: boolean;
-  roomForUpdate: Room;
   roomKey: string;
   showPassword: boolean;
   subscription: Subscription;
   user: User;
   userSubscription: Subscription;
-  action = 'create';
 
   constructor(
     private roomService: RoomService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject(ROOM_OVERLAY_DATA) private roomForEdit: Room,
+    @Inject(EditRoomOverlayRef) private editRoomOverlayRef: EditRoomOverlayRef
   ) {
+    let room;
+    if (!this.roomForEdit) {
+      room = {};
+    } else {
+      room = this.roomForEdit;
+    }
+
     this.chatroomForm = new FormGroup({
-      roomName: new FormControl('', [
+      roomName: new FormControl(room.name, [
         Validators.required,
         Validators.minLength(4)
       ]),
-      accessibility: new FormControl(this.accessTypes[0], [
-        Validators.required
-      ]),
-      password: new FormControl('')
+      accessibility: new FormControl(
+        room.accessibility || this.accessTypes[0],
+        [Validators.required]
+      ),
+      password: new FormControl(room.password)
     });
   }
 
   ngOnInit() {
-    this.roomKey = this.route.snapshot.queryParamMap.get('roomKey');
     this.userSubscription = this.authService.user$.subscribe(
       user => (this.user = user)
     );
-
-    if (this.roomKey) {
-      this.action = 'update';
-
-      this.subscription = this.roomService
-        .getBy(this.roomKey)
-        .subscribe((r: Room) => {
-          this.roomForUpdate = r;
-
-          this.chatroomForm.controls.roomName.setValue(this.roomForUpdate.name);
-          this.chatroomForm.controls.accessibility.setValue(
-            this.roomForUpdate.accessibility
-          );
-          this.chatroomForm.controls.password.setValue(
-            this.roomForUpdate.password
-          );
-        });
-    }
   }
 
   save() {
@@ -78,10 +68,10 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.action === 'create') {
-      this.create();
-    } else {
+    if (this.roomForEdit) {
       this.update();
+    } else {
+      this.create();
     }
   }
 
@@ -89,14 +79,16 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
     const room = this.initRoomFromForm();
 
     this.roomService.create(room); // Not checked if it succeeded
+    this.showSuccessMessage();
     this.navigateToMainPage();
   }
 
   update() {
     const room = this.initRoomFromForm();
-    room.key = this.roomForUpdate.key;
+    room.key = this.roomForEdit.key;
 
     this.roomService.update(room); // Not checked if it succeeded
+    this.showSuccessMessage();
     this.navigateToMainPage();
   }
 
@@ -114,11 +106,13 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   }
 
   navigateToMainPage() {
-    this.showSuccessMessage();
-
     setTimeout(() => {
-      this.router.navigateByUrl('/main');
+      this.closeOverlay();
     }, 1200);
+  }
+
+  closeOverlay() {
+    this.editRoomOverlayRef.close();
   }
 
   showSuccessMessage() {

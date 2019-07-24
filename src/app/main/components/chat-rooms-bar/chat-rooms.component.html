@@ -1,79 +1,124 @@
 <div class="container">
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="content-area overflow-auto">
-                <h5>Chat Rooms</h5> <button (click)="add()" class="btn btn-outline-primary">Add room</button>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="content-area overflow-auto">
+        <h5>Chat Rooms</h5>
+        <button (click)="manageRoom()" class="btn btn-outline-primary">
+          Add room
+        </button>
 
-                <ul class="nav flex-column">
+        <ul class="nav flex-column">
+          <li
+            *ngFor="let room of rooms$ | async"
+            ngbDropdown
+            class="nav-item dropdown"
+          >
+            <div
+              *ngIf="
+                user.uid === room.createdBy;
+                then creatorOfRoom;
+                else otherUser
+              "
+            ></div>
 
-                    <li *ngFor="let room of rooms$ | async " ngbDropdown class="nav-item dropdown">
+            <ng-template #creatorOfRoom>
+              <a
+                ngbDropdownToggle
+                class="nav-link dropdown-toggle"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <mat-icon
+                  class="icon"
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  *ngIf="room.accessibility === 'protected'"
+                >
+                  lock
+                </mat-icon>
+                <mat-icon
+                  class="icon"
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  *ngIf="room.accessibility === 'public'"
+                >
+                  lock_open
+                </mat-icon>
+                <mat-icon
+                  class="icon"
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  *ngIf="room.accessibility === 'private'"
+                >
+                  visibility_off
+                </mat-icon>
 
-                        <div *ngIf="user.uid === room.createdBy; then creatorOfRoom else otherUser"></div>
+                {{ room.name }}
+              </a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <a (click)="open(room)" class="dropdown-item">
+                  Open
+                </a>
+                <a (click)="manageRoom(room)" class="dropdown-item">
+                  Edit room
+                </a>
+                <a class="dropdown-item" (click)="deleteBy(room.key)">
+                  Delete room
+                </a>
+              </div>
+              <hr />
+            </ng-template>
 
-                        <ng-template #creatorOfRoom>
-                            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <ng-template #otherUser>
+              <a
+                *ngIf="room.accessibility !== 'private'"
+                ngbDropdownToggle
+                class="nav-link dropdown-toggle"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <mat-icon
+                  class="icon"
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  *ngIf="room.accessibility === 'protected'"
+                >
+                  lock
+                </mat-icon>
+                <mat-icon
+                  class="icon"
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  *ngIf="room.accessibility === 'public'"
+                >
+                  lock_open
+                </mat-icon>
 
-                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
-                                    *ngIf="room.accessibility === 'protected'">
-                                    lock
-                                </mat-icon>
-                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
-                                    *ngIf="room.accessibility === 'public'">
-                                    lock_open
-                                </mat-icon>
-                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
-                                    *ngIf="room.accessibility === 'private'">
-                                    visibility_off
-                                </mat-icon>
+                {{ room.name }}
+              </a>
 
-                                {{ room.name }}
-                            </a>
-                            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a (click)="open(room)" class="dropdown-item">
-                                    Open
-                                </a>
-                                <a *ngIf="room.accessibility === 'private'" class="dropdown-item">
-                                    Add user
-                                </a>
-                                <a routerLink="/edit" [queryParams]="{roomKey: room.key}" class="dropdown-item">
-                                    Edit room
-                                </a>
-                                <a class="dropdown-item" (click)="deleteBy(room.key)">
-                                    Delete room
-                                </a>
-                            </div>
-                            <hr>
-                        </ng-template>
-
-                        <ng-template #otherUser>
-                            <a *ngIf="room.accessibility !== 'private'" ngbDropdownToggle
-                                class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-
-                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
-                                    *ngIf="room.accessibility === 'protected'">
-                                    lock
-                                </mat-icon>
-                                <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon"
-                                    *ngIf="room.accessibility === 'public'">
-                                    lock_open
-                                </mat-icon>
-
-                                {{ room.name }}
-                            </a>
-
-                            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a (click)="open(room)" class="dropdown-item">
-                                    Open
-                                </a>
-                            </div>
-                            <hr>
-                        </ng-template>
-
-                    </li>
-                </ul>
-            </div>
-        </div>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <a (click)="open(room)" class="dropdown-item">
+                  Open
+                </a>
+              </div>
+              <hr />
+            </ng-template>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>
