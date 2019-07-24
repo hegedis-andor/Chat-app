@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject, Input, Injector } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -6,8 +6,7 @@ import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
-import { ROOM_OVERLAY_DATA } from '../../room-overlay.tokens';
-import { EditRoomOverlayRef } from '../../edit-room-overlayref';
+import { ROOM_DATA } from '../../room-data.token';
 
 @Component({
   selector: 'app-edit-room-overlay',
@@ -23,15 +22,15 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   isRoomSaved: boolean;
   roomKey: string;
   showPassword: boolean;
-  subscription: Subscription;
   user: User;
   userSubscription: Subscription;
+  @Input() disposeOverlay;
+  overlayDispose: () => void;
 
   constructor(
     private roomService: RoomService,
     private authService: AuthService,
-    @Inject(ROOM_OVERLAY_DATA) private roomForEdit: Room,
-    @Inject(EditRoomOverlayRef) private editRoomOverlayRef: EditRoomOverlayRef
+    @Inject(ROOM_DATA) private roomForEdit: Room
   ) {
     let room;
     if (!this.roomForEdit) {
@@ -104,7 +103,7 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   }
 
   closeOverlay() {
-    this.editRoomOverlayRef.close();
+    // this.overlayRef.detach();
   }
 
   showSuccessMessage() {
@@ -134,10 +133,6 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

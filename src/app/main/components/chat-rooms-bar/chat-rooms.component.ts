@@ -1,5 +1,5 @@
 import { User } from 'src/app/shared/models/user.model';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -7,8 +7,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
 import { DialogService } from '../../services/dialog.service';
-import { EditRoomOverlayService } from '../../services/edit-room-overlay.service';
 import { EditRoomOverlayComponent } from '../edit-room-overlay/edit-room-overlay.component';
+import { ModalService } from '../../services/modal.service';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { PopUpComponent } from '../pop-up/pop-up.component';
+import { ROOM_DATA } from '../../room-data.token';
 
 @Component({
   selector: 'app-chat-rooms-bar',
@@ -28,7 +31,8 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private dialogService: DialogService,
     private snackBar: MatSnackBar,
-    private editRoomOverlayService: EditRoomOverlayService
+    private modalService: ModalService,
+    private injector: Injector
   ) {}
 
   ngOnInit() {
@@ -49,7 +53,8 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   manageRoom(room?: Room) {
-    this.editRoomOverlayService.openDialog(EditRoomOverlayComponent, room || null);
+    const injector = Injector.create([{ provide: ROOM_DATA, useValue: room || null }]);
+    this.modalService.openModal(new ComponentPortal(EditRoomOverlayComponent, null, injector));
   }
 
   open(room: Room): void {

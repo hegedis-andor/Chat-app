@@ -20,7 +20,8 @@ import { UsersComponent } from './components/users-bar/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EditRoomOverlayComponent } from './components/edit-room-overlay/edit-room-overlay.component';
-import { EditRoomOverlayService } from './services/edit-room-overlay.service';
+import { ModalService } from './services/modal.service';
+import { PopUpComponent } from './components/pop-up/pop-up.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     UsersComponent,
     PasswordDialogComponent,
     ConfirmDialogComponent,
-    EditRoomOverlayComponent
+    EditRoomOverlayComponent,
+    PopUpComponent
   ],
   imports: [
     CommonModule,
@@ -60,11 +62,12 @@ const routes: Routes = [
     PortalModule,
     RouterModule.forChild(routes)
   ],
-  providers: [EditRoomOverlayService],
+  providers: [ModalService],
   exports: [],
   entryComponents: [
     PasswordDialogComponent,
     ConfirmDialogComponent,
+    PopUpComponent,
     EditRoomOverlayComponent
   ]
 })
