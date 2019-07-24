@@ -1,13 +1,6 @@
 import { User } from 'src/app/shared/models/user.model';
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -16,7 +9,6 @@ import { RoomService } from '../../services/room.service';
 import { DialogService } from '../../services/dialog.service';
 import { EditRoomOverlayService } from '../../services/edit-room-overlay.service';
 import { EditRoomOverlayComponent } from '../edit-room-overlay/edit-room-overlay.component';
-import { ComponentPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-chat-rooms-bar',
@@ -33,7 +25,6 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   constructor(
     private roomService: RoomService,
-    private router: Router,
     public authService: AuthService,
     private dialogService: DialogService,
     private snackBar: MatSnackBar,
@@ -42,9 +33,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.rooms$ = this.roomService.getAll();
-    this.userSubscription = this.authService.user$.subscribe(
-      user => (this.user = user)
-    );
+    this.userSubscription = this.authService.user$.subscribe(user => (this.user = user));
   }
 
   deleteBy(roomKey) {
@@ -60,10 +49,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   manageRoom(room?: Room) {
-    this.editRoomOverlayService.openDialog(
-      EditRoomOverlayComponent,
-      room || null
-    );
+    this.editRoomOverlayService.openDialog(EditRoomOverlayComponent, room || null);
   }
 
   open(room: Room): void {
@@ -84,9 +70,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   needPassword(room: Room, uid: string): boolean {
-    return (
-      room.accessibility === 'protected' && !this.isOwner(room.createdBy, uid)
-    );
+    return room.accessibility === 'protected' && !this.isOwner(room.createdBy, uid);
   }
 
   isOwner(createdBy: string, uid: string): boolean {

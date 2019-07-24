@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/shared/models/user.model';
@@ -8,7 +7,6 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Room } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
 import { ROOM_OVERLAY_DATA } from '../../room-overlay.tokens';
-import { isEmpty } from 'rxjs/operators';
 import { EditRoomOverlayRef } from '../../edit-room-overlayref';
 
 @Component({
@@ -43,22 +41,16 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
     }
 
     this.chatroomForm = new FormGroup({
-      roomName: new FormControl(room.name, [
-        Validators.required,
-        Validators.minLength(4)
+      roomName: new FormControl(room.name, [Validators.required, Validators.minLength(4)]),
+      accessibility: new FormControl(room.accessibility || this.accessTypes[0], [
+        Validators.required
       ]),
-      accessibility: new FormControl(
-        room.accessibility || this.accessTypes[0],
-        [Validators.required]
-      ),
       password: new FormControl(room.password)
     });
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe(
-      user => (this.user = user)
-    );
+    this.userSubscription = this.authService.user$.subscribe(user => (this.user = user));
   }
 
   save() {

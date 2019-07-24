@@ -12,10 +12,7 @@
             required
           />
         </div>
-        <div
-          *ngIf="roomName.touched && roomName.invalid"
-          class="alert alert-danger"
-        >
+        <div *ngIf="roomName.touched && roomName.invalid" class="alert alert-danger">
           <div *ngIf="roomName.errors.minlength">
             Room name should be minimum of 4 character.
           </div>
@@ -25,15 +22,8 @@
         <div class="form-group">
           <label for="accessability">Accessibility </label>
 
-          <select
-            formControlName="accessibility"
-            class="form-control"
-            id="accessability"
-          >
-            <option
-              *ngFor="let accessType of accessTypes"
-              [ngValue]="accessType"
-            >
+          <select formControlName="accessibility" class="form-control" id="accessability">
+            <option *ngFor="let accessType of accessTypes" [ngValue]="accessType">
               {{ accessType }}
             </option>
           </select>
@@ -56,9 +46,7 @@
               class="form-check-input"
               id="passwordToggle"
             />
-            <label class="form-check-label" for="passwordToggle"
-              >Show password</label
-            >
+            <label class="form-check-label" for="passwordToggle">Show password</label>
           </div>
         </div>
 
