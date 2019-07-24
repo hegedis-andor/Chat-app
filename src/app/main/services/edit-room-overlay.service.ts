@@ -1,5 +1,5 @@
 import { Injectable, Injector, ComponentRef } from '@angular/core';
-import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { PortalInjector, ComponentPortal } from '@angular/cdk/portal';
 import { Room } from '../models/room.model';
 import { ROOM_OVERLAY_DATA } from '../room-overlay.tokens';
@@ -10,20 +10,17 @@ import { EditRoomOverlayComponent } from '../components/edit-room-overlay/edit-r
 export class EditRoomOverlayService {
   constructor(private overlay: Overlay, private injector: Injector) {}
 
-  openDialog(component, room: Room) {
+  openDialog(editRoomOverlayComponent, room: Room) {
     const overlayRef = this.createOverlay();
 
     const editRoomOverlayRef = new EditRoomOverlayRef(overlayRef);
-    this.attachDialogContainer(component, overlayRef, editRoomOverlayRef, room);
-
-    overlayRef.backdropClick().subscribe(_ => overlayRef.detach());
+    this.attachDialogContainer(editRoomOverlayComponent, overlayRef, editRoomOverlayRef, room);
 
     return editRoomOverlayRef;
   }
 
-  createOverlay() {
+  createOverlay(): OverlayRef {
     const overlayConfig = this.getOverlayConfig();
-
     return this.overlay.create(overlayConfig);
   }
 
@@ -43,12 +40,10 @@ export class EditRoomOverlayService {
     return overlayConfig;
   }
 
-  attachDialogContainer(component, overlayRef, editRoomOverlayRef, room: Room) {
+  attachDialogContainer(editRoomOverlayComponent, overlayRef, editRoomOverlayRef, room: Room) {
     const injector = this.createInjector(editRoomOverlayRef, room);
-    const containerPortal = new ComponentPortal(component, null, injector);
-    const containerRef: ComponentRef<
-      EditRoomOverlayComponent
-    > = overlayRef.attach(containerPortal);
+    const containerPortal = new ComponentPortal(editRoomOverlayComponent, null, injector);
+    const containerRef: ComponentRef<EditRoomOverlayComponent> = overlayRef.attach(containerPortal);
 
     return containerRef.instance;
   }
