@@ -13,9 +13,9 @@ import { Room } from '../../../models/room.model';
 export class ChatRoomsComponent {
   @Input() rooms$: Observable<Room[]>;
   @Input() user: User;
-  @Output() deleteRoomEmitter: EventEmitter<string> = new EventEmitter();
   @Output() addRoomEmitter: EventEmitter<void> = new EventEmitter();
   @Output() editRoomEmitter: EventEmitter<Room> = new EventEmitter();
+  @Output() deleteRoomEmitter: EventEmitter<string> = new EventEmitter();
   @Output() openRoomEmitter: EventEmitter<Room> = new EventEmitter();
 
   constructor() {}
@@ -24,12 +24,12 @@ export class ChatRoomsComponent {
     this.addRoomEmitter.emit();
   }
 
-  deleteRoomBy(roomKey) {
-    this.deleteRoomEmitter.emit(roomKey);
-  }
-
   editRoom(room: Room) {
     this.editRoomEmitter.emit(room);
+  }
+
+  deleteRoomBy(roomKey) {
+    this.deleteRoomEmitter.emit(roomKey);
   }
 
   open(room: Room): void {
