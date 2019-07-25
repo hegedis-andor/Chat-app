@@ -1,9 +1,9 @@
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
-import { PopUpComponent } from '../components/pop-up/pop-up.component';
+
+import { PopUpComponent } from '../components/dialogs/pop-up/pop-up.component';
 import { POPUP_DATA } from '../pop-up-data.token';
-import { OVERLAYREF_DATA } from '../overlay-ref.token';
 
 @Injectable()
 export class ModalService {
@@ -11,22 +11,20 @@ export class ModalService {
 
   constructor(private overlay: Overlay, private injector: Injector) {}
 
-  openModal(componentPortal: ComponentPortal<any>) {
+  openModal<T>(componentType: ComponentType<T>, injector?: Injector) {
     if (!this.overlayRef) {
       this.overlayRef = this.createOverlay();
     }
 
-    const injector = Injector.create(
+    const inj = Injector.create(
       [
-        {
-          provide: POPUP_DATA,
-          useValue: { portal: componentPortal, dispose: () => this.dispose() }
-        }
+        { provide: POPUP_DATA, useValue: componentType },
+        { provide: OverlayRef, useValue: this.overlayRef }
       ],
-      this.injector
+      injector || this.injector
     );
 
-    const popUpComponentPortal = new ComponentPortal(PopUpComponent, null, injector);
+    const popUpComponentPortal = new ComponentPortal(PopUpComponent, null, inj);
     this.overlayRef.attach(popUpComponentPortal);
 
     this.overlayRef.backdropClick().subscribe(_ => this.dispose());

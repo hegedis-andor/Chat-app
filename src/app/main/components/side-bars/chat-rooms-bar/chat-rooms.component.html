@@ -3,23 +3,13 @@
     <div class="card-body">
       <div class="content-area overflow-auto">
         <h5>Chat Rooms</h5>
-        <button (click)="manageRoom()" class="btn btn-outline-primary">
+        <button (click)="addRoom()" class="btn btn-outline-primary">
           Add room
         </button>
 
         <ul class="nav flex-column">
-          <li
-            *ngFor="let room of rooms$ | async"
-            ngbDropdown
-            class="nav-item dropdown"
-          >
-            <div
-              *ngIf="
-                user.uid === room.createdBy;
-                then creatorOfRoom;
-                else otherUser
-              "
-            ></div>
+          <li *ngFor="let room of rooms$ | async" ngbDropdown class="nav-item dropdown">
+            <div *ngIf="user.uid === room.createdBy; then creatorOfRoom; else otherUser"></div>
 
             <ng-template #creatorOfRoom>
               <a
@@ -57,18 +47,14 @@
 
                 {{ room.name }}
               </a>
-              <div
-                ngbDropdownMenu
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
+              <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a (click)="open(room)" class="dropdown-item">
                   Open
                 </a>
-                <a (click)="manageRoom(room)" class="dropdown-item">
+                <a (click)="editRoom(room)" class="dropdown-item">
                   Edit room
                 </a>
-                <a class="dropdown-item" (click)="deleteBy(room.key)">
+                <a class="dropdown-item" (click)="deleteRoomBy(room.key)">
                   Delete room
                 </a>
               </div>
@@ -105,11 +91,7 @@
                 {{ room.name }}
               </a>
 
-              <div
-                ngbDropdownMenu
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
+              <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a (click)="open(room)" class="dropdown-item">
                   Open
                 </a>

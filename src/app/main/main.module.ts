@@ -11,19 +11,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 
-import { ChatRoomsComponent } from './components/chat-rooms-bar/chat-rooms.component';
+import { ChatRoomsComponent } from './components/side-bars/chat-rooms-bar/chat-rooms.component';
 import { EditRoomComponent } from './components/edit-room/edit-room.component';
 import { MainwindowComponent } from './components/main-window/mainwindow.component';
 import { MessagingAreaComponent } from './components/messaging-area/messaging-area.component';
 import { PasswordDialogComponent } from './components/dialogs/password-dialog/password-dialog.component';
-import { UsersComponent } from './components/users-bar/users.component';
+import { UsersComponent } from './components/side-bars/users-bar/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EditRoomOverlayComponent } from './components/edit-room-overlay/edit-room-overlay.component';
 import { ModalService } from './services/modal.service';
-import { PopUpComponent } from './components/pop-up/pop-up.component';
+import { PopUpComponent } from './components/dialogs/pop-up/pop-up.component';
+import { NavBarsSmartComponent } from './components/side-bars/nav-bar-users/nav-bar-users.component';
+import { NavBarChatroomComponent } from './components/side-bars/nav-bar-chatroom/nav-bar-chatroom.component';
 
 const routes: Routes = [
+  {
+    path: 'main/:roomAccessibility/:roomKey',
+    component: MainwindowComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: 'main',
     component: MainwindowComponent,
@@ -46,7 +53,9 @@ const routes: Routes = [
     PasswordDialogComponent,
     ConfirmDialogComponent,
     EditRoomOverlayComponent,
-    PopUpComponent
+    PopUpComponent,
+    NavBarsSmartComponent,
+    NavBarChatroomComponent
   ],
   imports: [
     CommonModule,

@@ -1,9 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { Component } from '@angular/core';
 import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { Room } from '../../models/room.model';
-import { ChatService } from '../../services/chat-room.service';
 import { User } from './../../../shared/models/user.model';
 
 @Component({
@@ -11,27 +8,16 @@ import { User } from './../../../shared/models/user.model';
   templateUrl: './messaging-area.component.html',
   styleUrls: ['./messaging-area.component.scss']
 })
-export class MessagingAreaComponent implements OnInit, OnDestroy {
+export class MessagingAreaComponent {
   messages$;
   inputMessage: string;
   room: Room;
   user: User;
-  userSubscription: Subscription;
 
-  constructor(
-    public chatService: ChatService,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit(): void {
-    this.userSubscription = this.authService.user$.subscribe(
-      user => (this.user = user)
-    );
-  }
+  constructor() {}
 
   open(room: Room) {
     this.room = room;
-    this.messages$ = this.chatService.getBy(this.room.key);
   }
 
   canSendMessage(): boolean {
@@ -56,11 +42,5 @@ export class MessagingAreaComponent implements OnInit, OnDestroy {
 
     this.chatService.create(chatroomMessage); // not checked if it succeeded
     this.inputMessage = '';
-  }
-
-  ngOnDestroy(): void {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
   }
 }

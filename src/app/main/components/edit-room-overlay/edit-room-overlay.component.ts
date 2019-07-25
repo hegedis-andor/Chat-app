@@ -1,17 +1,19 @@
-import { Component, OnDestroy, OnInit, Inject, Input, Injector } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
+
 import { Room } from '../../models/room.model';
-import { RoomService } from '../../services/room.service';
 import { ROOM_DATA } from '../../room-data.token';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'app-edit-room-overlay',
   templateUrl: './edit-room-overlay.component.html',
-  styleUrls: ['./edit-room-overlay.component.scss']
+  styleUrls: ['./edit-room-overlay.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   accessTypes = ['public', 'private', 'protected'];
@@ -24,13 +26,12 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   showPassword: boolean;
   user: User;
   userSubscription: Subscription;
-  @Input() disposeOverlay;
-  overlayDispose: () => void;
 
   constructor(
     private roomService: RoomService,
     private authService: AuthService,
-    @Inject(ROOM_DATA) private roomForEdit: Room
+    @Inject(ROOM_DATA) private roomForEdit: Room,
+    private overlayRef: OverlayRef
   ) {
     let room;
     if (!this.roomForEdit) {
@@ -103,7 +104,7 @@ export class EditRoomOverlayComponent implements OnInit, OnDestroy {
   }
 
   closeOverlay() {
-    // this.overlayRef.detach();
+    this.overlayRef.detach();
   }
 
   showSuccessMessage() {

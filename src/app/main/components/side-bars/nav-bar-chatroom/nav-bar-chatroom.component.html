@@ -1,0 +1,8 @@
+<app-chat-rooms-bar
+  [user]="user"
+  [rooms$]="rooms$"
+  (deleteRoomEmitter)="onDeleteRoom($event)"
+  (addRoomEmitter)="onAddRoom()"
+  (editRoomEmitter)="onEditRoom($event)"
+  (openRoomEmitter)="onOpenRoom($event)"
+></app-chat-rooms-bar>
