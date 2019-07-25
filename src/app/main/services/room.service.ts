@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { Room } from '../models/room.model';
 
@@ -13,9 +12,7 @@ export class RoomService {
   roomsRef: AngularFireList<Room>;
   rooms: Observable<Room[]>;
 
-  constructor(
-    private db: AngularFireDatabase,
-  ) {
+  constructor(private db: AngularFireDatabase) {
     this.roomsRef = db.list('rooms');
   }
 
@@ -24,17 +21,16 @@ export class RoomService {
   }
 
   getAll() {
-    return this.roomsRef.snapshotChanges().pipe(
-      map(changes => changes.map(c =>
-        ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
+    return this.roomsRef
+      .snapshotChanges()
+      .pipe(map(changes => changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
   }
 
   getBy(roomKey: string) {
-    return this.db.object('/rooms/' + roomKey).snapshotChanges().pipe(
-      map(changes => ({ key: changes.key, ...changes.payload.val() }))
-    );
+    return this.db
+      .object('/rooms/' + roomKey)
+      .snapshotChanges()
+      .pipe(map(changes => ({ key: changes.key, ...changes.payload.val() })));
   }
 
   update(room: Room) {
@@ -50,7 +46,7 @@ export class RoomService {
 
     this.db.object('/rooms/' + room.key).update({
       name: room.name,
-      accessibility: room.accessibility,
+      accessibility: room.accessibility
     });
   }
 
@@ -59,9 +55,9 @@ export class RoomService {
   }
 
   getRoomPassword(roomKey: string) {
-    return this.db.object('/rooms/' + roomKey + '/password').snapshotChanges().pipe(
-      map(changes => changes.payload.val())
-    );
+    return this.db
+      .object('/rooms/' + roomKey + '/password')
+      .snapshotChanges()
+      .pipe(map(changes => changes.payload.val()));
   }
-
 }

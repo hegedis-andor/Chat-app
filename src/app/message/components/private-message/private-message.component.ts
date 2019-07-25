@@ -1,7 +1,13 @@
 import { User } from 'src/app/shared/models/user.model';
 import { ChatPartner } from './../../models/chat-partner.model';
 import { ChatPartnerService } from './../../services/chat-partner.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -13,12 +19,14 @@ import { PrivateMessageService } from '../../services/private-message.service';
 @Component({
   selector: 'app-private-message',
   templateUrl: './private-message.component.html',
-  styleUrls: ['./private-message.component.scss']
+  styleUrls: ['./private-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateMessageComponent implements OnInit, OnDestroy {
+  partners$;
   messages$;
   serverErrorMessage;
-  inputMessage: string;
+  messageToSend: string;
   partner: ChatPartner;
   user: User;
   paramSubscription: Subscription;
@@ -29,7 +37,8 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private presenceService: PresenceService,
-    private partnerService: ChatPartnerService
+    private partnerService: ChatPartnerService,
+    private cd: ChangeDetectorRef
   ) {
     this.presenceService.setUserPresence();
   }
@@ -41,25 +50,25 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
         name: params.get('partnerName')
       };
 
-      if (this.partner.name === 'All') {
-        this.messages$ = of(null);
-        return;
-      }
-
       this.userSubscription = this.authService.user$.subscribe(user => {
         this.user = user;
 
+        this.partners$ = this.partnerService.getPartners(user.uid);
+        this.cd.markForCheck();
+
+        if (this.partner.name === 'All') {
+          this.messages$ = of(null);
+          return;
+        }
+
         this.partnerService.addPartner(this.user.uid, this.partner);
-        this.messages$ = this.privateMessageService.getAllBy(
-          this.user.uid,
-          this.partner.uid
-        );
+        this.messages$ = this.privateMessageService.getAllBy(this.user.uid, this.partner.uid);
       });
     });
   }
 
   canSend() {
-    const isEmpty = this.inputMessage === '' || this.inputMessage === undefined;
+    const isEmpty = this.messageToSend === '' || this.messageToSend === undefined;
     const isPartnerSelected = this.partner.uid !== '0' ? true : false;
 
     return !isEmpty && isPartnerSelected;
@@ -76,11 +85,11 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
       senderName: this.user.displayName,
       partnerUid: this.partner.uid,
       partnerName: this.partner.name,
-      content: this.inputMessage
+      content: this.messageToSend
     };
 
     this.privateMessageService.create(privateMessage); // not checked if it succeeded
-    this.inputMessage = '';
+    this.messageToSend = '';
   }
 
   ngOnDestroy(): void {

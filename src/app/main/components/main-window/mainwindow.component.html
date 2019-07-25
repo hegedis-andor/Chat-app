@@ -5,7 +5,12 @@
     </div>
 
     <div class="col-sm-12 col-md-7 col-lg-6">
-      <app-messaging-area #messagingArea></app-messaging-area>
+      <app-messaging-area
+        [messages$]="messages$"
+        [user]="user"
+        [room]="room"
+        (messageEmitter)="onSendMessage($event)"
+      ></app-messaging-area>
     </div>
 
     <div class="col-sm-12 col-md-12 col-lg-3">

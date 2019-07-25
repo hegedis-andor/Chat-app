@@ -65,7 +65,7 @@ export class NavBarChatroomComponent implements OnInit, OnDestroy {
 
   onOpenRoom(room: Room): void {
     if (!this.needPassword(room, this.user.uid)) {
-      this.router.navigateByUrl(`main/${room.accessibility}/${room.key}`);
+      this.router.navigate(['main/', room.accessibility, room.key]);
       return;
     }
 
@@ -73,7 +73,7 @@ export class NavBarChatroomComponent implements OnInit, OnDestroy {
       .validatePassword(room.key)
       .subscribe(match => {
         if (match) {
-          this.router.navigateByUrl(`main/${room.accessibility}/${room.key}`);
+          this.router.navigate(['main/', room.accessibility, room.key]);
         } else {
           this.openSnackBar();
         }

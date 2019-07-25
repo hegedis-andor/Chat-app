@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { Room } from '../../models/room.model';
 import { User } from './../../../shared/models/user.model';
@@ -6,22 +6,20 @@ import { User } from './../../../shared/models/user.model';
 @Component({
   selector: 'app-messaging-area',
   templateUrl: './messaging-area.component.html',
-  styleUrls: ['./messaging-area.component.scss']
+  styleUrls: ['./messaging-area.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagingAreaComponent {
-  messages$;
-  inputMessage: string;
-  room: Room;
-  user: User;
+  @Input() messages$;
+  @Input() user: User;
+  @Input() room: Room;
+  @Output() messageEmitter = new EventEmitter<ChatroomMessage>();
+  messageToSend: string;
 
   constructor() {}
 
-  open(room: Room) {
-    this.room = room;
-  }
-
   canSendMessage(): boolean {
-    const isEmpty = this.inputMessage === '' || this.inputMessage === undefined;
+    const isEmpty = this.messageToSend === '' || !this.messageToSend;
     const isRoomSelected = this.room ? true : false;
 
     return !isEmpty && isRoomSelected;
@@ -36,11 +34,12 @@ export class MessagingAreaComponent {
       timestamp: +new Date(),
       userId: this.user.uid,
       username: this.user.displayName,
-      content: this.inputMessage,
+      content: this.messageToSend,
       roomKey: this.room.key
     };
 
-    this.chatService.create(chatroomMessage); // not checked if it succeeded
-    this.inputMessage = '';
+    this.messageEmitter.emit(chatroomMessage);
+
+    this.messageToSend = '';
   }
 }

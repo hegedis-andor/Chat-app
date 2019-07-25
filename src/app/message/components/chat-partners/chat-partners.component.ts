@@ -1,32 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { ChatPartnerService } from './../../services/chat-partner.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-chat-partners',
   templateUrl: './chat-partners.component.html',
-  styleUrls: ['./chat-partners.component.scss']
+  styleUrls: ['./chat-partners.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatPartnersComponent implements OnInit, OnDestroy {
-  partners$;
-  userSubscription: Subscription;
+export class ChatPartnersComponent {
+  @Input() partners$;
 
-  constructor(
-    private partnerService: ChatPartnerService,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe(user => {
-      this.partners$ = this.partnerService.getPartners(user.uid);
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-  }
+  constructor() {}
 }
