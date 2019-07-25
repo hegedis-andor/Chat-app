@@ -2,12 +2,12 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/shared/models/user.model';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { Room } from '../../models/room.model';
 import { ROOM_DATA } from '../../room-data.token';
 import { RoomService } from '../../services/room.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-edit-room-overlay',

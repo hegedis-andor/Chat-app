@@ -95,10 +95,10 @@ export class NavBarChatroomComponent implements OnInit, OnDestroy {
   }
 
   private createInjectorForModal(room?: Room) {
-    const injector = Injector.create(
-      [{ provide: ROOM_DATA, useValue: room || null }],
-      this.injector
-    );
+    const injector = Injector.create({
+      providers: [{ provide: ROOM_DATA, useValue: room || null }],
+      parent: this.injector
+    });
 
     return injector;
   }

@@ -16,13 +16,13 @@ export class ModalService {
       this.overlayRef = this.createOverlay();
     }
 
-    const inj = Injector.create(
-      [
+    const inj = Injector.create({
+      providers: [
         { provide: POPUP_DATA, useValue: componentType },
         { provide: OverlayRef, useValue: this.overlayRef }
       ],
-      injector || this.injector
-    );
+      parent: injector || this.injector
+    });
 
     const popUpComponentPortal = new ComponentPortal(PopUpComponent, null, inj);
     this.overlayRef.attach(popUpComponentPortal);
