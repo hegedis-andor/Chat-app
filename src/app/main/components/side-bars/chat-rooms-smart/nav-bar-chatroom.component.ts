@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
-
 import { Room } from '../../../models/room.model';
-import { ROOM_DATA } from '../../../room-data.token';
 import { DialogService } from '../../../services/dialog.service';
 import { ModalService } from '../../../services/modal.service';
 import { RoomService } from '../../../services/room.service';
-import { EditRoomOverlayComponent } from '../../edit-room-overlay/edit-room-overlay.component';
+import {
+  EditRoomOverlayComponent,
+  ROOM_DATA
+} from '../../edit-room-overlay/edit-room-overlay.component';
 
 @Component({
   selector: 'app-nav-bar-chatroom',

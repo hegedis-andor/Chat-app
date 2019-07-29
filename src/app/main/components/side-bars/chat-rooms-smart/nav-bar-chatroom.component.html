@@ -1,6 +1,6 @@
 <app-chat-rooms-bar
   [user]="user"
-  [rooms$]="rooms$"
+  [rooms]="rooms$ | async"
   (addRoomEmitter)="onAddRoom()"
   (editRoomEmitter)="onEditRoom($event)"
   (deleteRoomEmitter)="onDeleteRoom($event)"

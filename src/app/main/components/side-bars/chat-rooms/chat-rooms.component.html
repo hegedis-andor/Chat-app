@@ -8,7 +8,7 @@
         </button>
 
         <ul class="nav flex-column">
-          <li *ngFor="let room of rooms$ | async" ngbDropdown class="nav-item dropdown">
+          <li *ngFor="let room of rooms" ngbDropdown class="nav-item dropdown">
             <div *ngIf="user.uid === room.createdBy; then creatorOfRoom; else otherUser"></div>
 
             <ng-template #creatorOfRoom>

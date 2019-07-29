@@ -11,7 +11,7 @@ import { Room } from '../../../models/room.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatRoomsComponent {
-  @Input() rooms$: Observable<Room[]>;
+  @Input() rooms: Room[];
   @Input() user: User;
   @Output() addRoomEmitter: EventEmitter<void> = new EventEmitter();
   @Output() editRoomEmitter: EventEmitter<Room> = new EventEmitter();

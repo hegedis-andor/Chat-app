@@ -1,36 +1,40 @@
 <div class="container">
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="content-area overflow-auto">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="content-area overflow-auto">
+        <ul class="nav flex-column">
+          <h5>Online users:</h5>
+          <hr />
 
-                <ul class="nav flex-column">
-                    <h5>Online users:</h5>
-                    <hr>
+          <ng-container *ngFor="let onlineUser of onlineUsers">
+            <li>
+              {{ onlineUser.displayName }}
+              <a
+                *ngIf="isOtherUser(onlineUser.uid)"
+                [routerLink]="['/privateMessage', onlineUser.displayName, onlineUser.uid]"
+              >
+                send
+              </a>
+            </li>
+          </ng-container>
+        </ul>
 
-                    <ng-container *ngFor=" let onlineUser of onlineUsers$ | async ">
-                        <li>
-                            {{ onlineUser.displayName }}
-                            <a *ngIf="isOtherUser(onlineUser.uid)"
-                                [routerLink]="['/privateMessage', onlineUser.displayName, onlineUser.uid]">
-                                send
-                            </a>
-                        </li>
-                    </ng-container>
+        <ul class="nav flex-column margin-top">
+          <h6>Offline users:</h6>
+          <hr />
 
-                </ul>
-
-                <ul class="nav flex-column margin-top">
-                    <h6>Offline users:</h6>
-                    <hr>
-
-                    <ng-container *ngFor=" let offlineUser of offlineUsers$ | async ">
-                        <li> {{ offlineUser.displayName }} <a *ngIf="isOtherUser(offlineUser.uid)"
-                                [routerLink]="['/privateMessage', offlineUser.displayName, offlineUser.uid]">send</a>
-                        </li>
-                    </ng-container>
-                </ul>
-
-            </div>
-        </div>
+          <ng-container *ngFor="let offlineUser of offlineUsers">
+            <li>
+              {{ offlineUser.displayName }}
+              <a
+                *ngIf="isOtherUser(offlineUser.uid)"
+                [routerLink]="['/privateMessage', offlineUser.displayName, offlineUser.uid]"
+                >send</a
+              >
+            </li>
+          </ng-container>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>

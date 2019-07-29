@@ -2,8 +2,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
 
-import { PopUpComponent } from '../components/dialogs/pop-up/pop-up.component';
-import { POPUP_DATA } from '../pop-up-data.token';
+import { PopUpComponent, POPUP_DATA } from '../components/dialogs/pop-up/pop-up.component';
 
 @Injectable()
 export class ModalService {

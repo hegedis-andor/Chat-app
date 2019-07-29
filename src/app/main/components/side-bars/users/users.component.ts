@@ -9,8 +9,8 @@ import { User } from '../../../../shared/models/user.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent {
-  @Input() onlineUsers$;
-  @Input() offlineUsers$;
+  @Input() onlineUsers;
+  @Input() offlineUsers;
   @Input() user: User;
 
   constructor() {}

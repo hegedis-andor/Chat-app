@@ -1,5 +1,5 @@
 <app-users-bar
-  [onlineUsers$]="onlineUsers$"
-  [offlineUsers$]="offlineUsers$"
+  [onlineUsers]="onlineUsers$ | async"
+  [offlineUsers]="offlineUsers$ | async"
   [user]="user"
 ></app-users-bar>
