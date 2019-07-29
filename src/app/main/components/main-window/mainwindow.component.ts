@@ -6,7 +6,7 @@ import {
   OnInit
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -14,6 +14,7 @@ import { ChatroomMessage } from '../../models/chatroom-message.model';
 import { Room } from '../../models/room.model';
 import { ChatService } from '../../services/chat-room.service';
 import { RoomService } from '../../services/room.service';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mainwindow',
@@ -39,17 +40,22 @@ export class MainwindowComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSubscription = this.authService.user$.subscribe(user => (this.user = user));
 
-    this.route.paramMap.subscribe((params: Params) => {
-      const roomKey = params.get('roomKey');
+    this.paramSubscription = this.route.paramMap
+      .pipe(
+        map(params => params.get('roomKey')),
+        switchMap((roomKey: string) => {
+          if (!roomKey) {
+            return;
+          }
 
-      if (!roomKey) {
-        return;
-      }
-
-      this.messages$ = this.chatService.getBy(roomKey);
-      this.roomService.getBy(roomKey).subscribe(room => (this.room = room));
-      this.cd.markForCheck();
-    });
+          this.messages$ = this.chatService.getMessagesBy(roomKey);
+          return this.roomService.getRoomBy(roomKey);
+        })
+      )
+      .subscribe(room => {
+        this.room = room;
+        this.cd.markForCheck();
+      });
   }
 
   onSendMessage(chatroomMessage: ChatroomMessage) {
@@ -61,8 +67,8 @@ export class MainwindowComponent implements OnInit, OnDestroy {
       this.userSubscription.unsubscribe();
     }
 
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+    if (this.paramSubscription) {
+      this.paramSubscription.unsubscribe();
     }
   }
 }

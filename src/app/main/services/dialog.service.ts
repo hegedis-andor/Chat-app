@@ -6,19 +6,15 @@ import { switchMap, map } from 'rxjs/operators';
 import { RoomService } from './room.service';
 import { ConfirmDialogComponent } from '../components/dialogs/confirm-dialog/confirm-dialog.component';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
-
-  constructor(
-    public dialog: MatDialog,
-    private roomService: RoomService) { }
+  constructor(public dialog: MatDialog, private roomService: RoomService) {}
 
   openConfirmDialog() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30rem',
+      width: '30rem'
     });
 
     return dialogRef.afterClosed().pipe(
@@ -46,17 +42,17 @@ export class DialogService {
             }
 
             return false;
-          }));
+          })
+        );
       })
     );
   }
 
   openPasswordDialog() {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {
-      width: '30rem',
+      width: '30rem'
     });
 
     return dialogRef.afterClosed();
   }
-
 }

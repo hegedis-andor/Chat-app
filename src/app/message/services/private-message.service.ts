@@ -7,8 +7,7 @@ import { PrivateMessage } from '../models/private-message.model';
   providedIn: 'root'
 })
 export class PrivateMessageService {
-
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase) {}
 
   create(message: PrivateMessage) {
     const messageNode = this.getPartnersId(message.senderUid, message.partnerUid);
@@ -17,7 +16,9 @@ export class PrivateMessageService {
 
   getAllBy(senderUid: string, partnerUid: string) {
     const messageNode = this.getPartnersId(senderUid, partnerUid);
-    return this.db.list('/privateMessages/' + messageNode, ref => ref.orderByChild('timestamp')).valueChanges();
+    return this.db
+      .list('/privateMessages/' + messageNode, ref => ref.orderByChild('timestamp'))
+      .valueChanges();
   }
 
   getPartnersId(senderUid: string, receiverUid: string): string {

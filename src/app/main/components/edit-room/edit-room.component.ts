@@ -35,39 +35,26 @@ export class EditRoomComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {
     this.chatroomForm = new FormGroup({
-      roomName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      accessibility: new FormControl(this.accessTypes[0], [
-        Validators.required
-      ]),
+      roomName: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      accessibility: new FormControl(this.accessTypes[0], [Validators.required]),
       password: new FormControl('')
     });
   }
 
   ngOnInit() {
     this.roomKey = this.route.snapshot.queryParamMap.get('roomKey');
-    this.userSubscription = this.authService.user$.subscribe(
-      user => (this.user = user)
-    );
+    this.userSubscription = this.authService.user$.subscribe(user => (this.user = user));
 
     if (this.roomKey) {
       this.action = 'update';
 
-      this.subscription = this.roomService
-        .getBy(this.roomKey)
-        .subscribe((r: Room) => {
-          this.roomForUpdate = r;
+      this.subscription = this.roomService.getRoomBy(this.roomKey).subscribe((r: Room) => {
+        this.roomForUpdate = r;
 
-          this.chatroomForm.controls.roomName.setValue(this.roomForUpdate.name);
-          this.chatroomForm.controls.accessibility.setValue(
-            this.roomForUpdate.accessibility
-          );
-          this.chatroomForm.controls.password.setValue(
-            this.roomForUpdate.password
-          );
-        });
+        this.chatroomForm.controls.roomName.setValue(this.roomForUpdate.name);
+        this.chatroomForm.controls.accessibility.setValue(this.roomForUpdate.accessibility);
+        this.chatroomForm.controls.password.setValue(this.roomForUpdate.password);
+      });
     }
   }
 

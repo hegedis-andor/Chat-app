@@ -6,7 +6,7 @@
 
     <div class="col-sm-12 col-md-7 col-lg-6">
       <app-messaging-area
-        [messages$]="messages$"
+        [messages]="messages$ | async"
         [user]="user"
         [room]="room"
         (messageEmitter)="onSendMessage($event)"

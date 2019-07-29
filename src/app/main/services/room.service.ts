@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import {
+  AngularFireDatabase,
+  AngularFireList,
+  AngularFireAction,
+  DatabaseSnapshot
+} from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -20,17 +25,41 @@ export class RoomService {
     this.db.list('/rooms/').push(room);
   }
 
-  getAll() {
-    return this.roomsRef
-      .snapshotChanges()
-      .pipe(map(changes => changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
+  getAll(): Observable<Room[]> {
+    return this.roomsRef.snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => {
+          const room: Room = {
+            key: c.payload.key,
+            accessibility: c.payload.val().accessibility,
+            createdBy: c.payload.val().createdBy,
+            name: c.payload.val().name,
+            password: c.payload.val().password
+          };
+
+          return room;
+        })
+      )
+    );
   }
 
-  getBy(roomKey: string) {
+  getRoomBy(roomKey: string): Observable<Room> {
     return this.db
       .object('/rooms/' + roomKey)
       .snapshotChanges()
-      .pipe(map(changes => ({ key: changes.key, ...changes.payload.val() })));
+      .pipe(
+        map((c: AngularFireAction<DatabaseSnapshot<Room>>) => {
+          const room: Room = {
+            key: c.payload.key,
+            accessibility: c.payload.val().accessibility,
+            createdBy: c.payload.val().createdBy,
+            name: c.payload.val().name,
+            password: c.payload.val().password
+          };
+
+          return room;
+        })
+      );
   }
 
   update(room: Room) {
@@ -50,7 +79,7 @@ export class RoomService {
     });
   }
 
-  deleteBy(roomKey: string) {
+  deleteRoomBy(roomKey: string) {
     this.roomsRef.remove(roomKey);
   }
 

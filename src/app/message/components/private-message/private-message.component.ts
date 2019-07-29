@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subscription } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { PresenceService } from '../../../shared/services/presence.service';
@@ -33,7 +34,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
 
   constructor(
-    public privateMessageService: PrivateMessageService,
+    private privateMessageService: PrivateMessageService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private presenceService: PresenceService,
@@ -67,7 +68,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy {
     });
   }
 
-  canSend() {
+  canSend(): boolean {
     const isEmpty = this.messageToSend === '' || this.messageToSend === undefined;
     const isPartnerSelected = this.partner.uid !== '0' ? true : false;
 

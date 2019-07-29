@@ -57,7 +57,8 @@ export class NavBarChatroomComponent implements OnInit, OnDestroy {
       .openConfirmDialog()
       .subscribe((answer: boolean) => {
         if (answer) {
-          this.roomService.deleteBy(roomKey);
+          this.roomService.deleteRoomBy(roomKey);
+          this.router.navigateByUrl('/main');
         }
 
         return;
@@ -95,7 +96,7 @@ export class NavBarChatroomComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createInjectorForModal(room?: Room) {
+  private createInjectorForModal(room?: Room): Injector {
     const injector = Injector.create({
       providers: [{ provide: ROOM_DATA, useValue: room || null }],
       parent: this.injector

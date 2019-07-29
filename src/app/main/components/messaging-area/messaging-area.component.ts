@@ -10,7 +10,7 @@ import { User } from './../../../shared/models/user.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagingAreaComponent {
-  @Input() messages$;
+  @Input() messages;
   @Input() user: User;
   @Input() room: Room;
   @Output() messageEmitter = new EventEmitter<ChatroomMessage>();

@@ -1,7 +1,7 @@
 <div class="margin-top">
   <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-3">
-      <app-chat-partners [partners$]="partners$"></app-chat-partners>
+      <app-chat-partners [partners]="partners$ | async"></app-chat-partners>
     </div>
 
     <div class="col-sm-12 col-md-8 col-lg-6">
